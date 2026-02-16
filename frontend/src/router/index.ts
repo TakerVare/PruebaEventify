@@ -1,29 +1,18 @@
-/**
- * =============================================================================
- * ROUTER - Configuración de Vue Router
- * =============================================================================
- * Configuración completa de rutas de la aplicación con:
- * - Rutas públicas (Home, Events, Event Detail)
- * - Rutas de autenticación (Login, Register)
- * - Rutas protegidas de administración (Dashboard, CRUD)
- * - Guards de navegación para control de acceso
- * - Meta información para permisos y layouts
- * =============================================================================
- */
+
 
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import type { UserRole } from '@/types'
 
-// -----------------------------------------------------------------------------
-// DEFINICIÓN DE RUTAS
-// -----------------------------------------------------------------------------
+
+
+
 
 const routes: RouteRecordRaw[] = [
-  // ===========================================================================
-  // RUTAS PÚBLICAS
-  // ===========================================================================
+  
+  
+  
   {
     path: '/',
     name: 'Home',
@@ -56,9 +45,9 @@ const routes: RouteRecordRaw[] = [
     props: true
   },
 
-  // ===========================================================================
-  // RUTAS DE AUTENTICACIÓN
-  // ===========================================================================
+  
+  
+  
   {
     path: '/login',
     name: 'Login',
@@ -67,7 +56,7 @@ const routes: RouteRecordRaw[] = [
       title: 'Iniciar Sesión',
       layout: 'auth',
       requiresAuth: false,
-      guestOnly: true // Solo accesible si NO estás autenticado
+      guestOnly: true 
     }
   },
   {
@@ -82,9 +71,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
 
-  // ===========================================================================
-  // RUTAS DE ADMINISTRACIÓN (PROTEGIDAS)
-  // ===========================================================================
+  
+  
+  
   {
     path: '/admin',
     redirect: '/admin/dashboard',
@@ -105,9 +94,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
 
-  // ---------------------------------------------------------------------------
-  // RUTAS DE GESTIÓN DE EVENTOS
-  // ---------------------------------------------------------------------------
+  
+  
+  
   {
     path: '/admin/events',
     name: 'AdminEventsList',
@@ -143,9 +132,9 @@ const routes: RouteRecordRaw[] = [
     props: true
   },
 
-  // ---------------------------------------------------------------------------
-  // RUTAS DE GESTIÓN DE UBICACIONES
-  // ---------------------------------------------------------------------------
+  
+  
+  
   {
     path: '/admin/locations',
     name: 'AdminLocationsList',
@@ -181,9 +170,9 @@ const routes: RouteRecordRaw[] = [
     props: true
   },
 
-  // ---------------------------------------------------------------------------
-  // RUTAS DE GESTIÓN DE USUARIOS (SOLO ADMIN)
-  // ---------------------------------------------------------------------------
+  
+  
+  
   {
     path: '/admin/users',
     name: 'AdminUsersList',
@@ -196,9 +185,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
 
-  // ===========================================================================
-  // RUTAS DE PERFIL DE USUARIO
-  // ===========================================================================
+  
+  
+  
   {
     path: '/profile',
     name: 'Profile',
@@ -220,9 +209,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
 
-  // ===========================================================================
-  // RUTAS DE ERROR
-  // ===========================================================================
+  
+  
+  
   {
     path: '/unauthorized',
     name: 'Unauthorized',
@@ -245,59 +234,56 @@ const routes: RouteRecordRaw[] = [
   }
 ]
 
-// -----------------------------------------------------------------------------
-// CREAR INSTANCIA DEL ROUTER
-// -----------------------------------------------------------------------------
+
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // Si hay una posición guardada, volver a ella
+    
     if (savedPosition) {
       return savedPosition
     }
-    // Si hay un hash, hacer scroll al elemento
+    
     if (to.hash) {
       return {
         el: to.hash,
         behavior: 'smooth'
       }
     }
-    // Por defecto, hacer scroll al inicio
+    
     return { top: 0, behavior: 'smooth' }
   }
 })
 
-// -----------------------------------------------------------------------------
-// NAVIGATION GUARDS (PROTECCIÓN DE RUTAS)
-// -----------------------------------------------------------------------------
 
-/**
- * Guard global que se ejecuta antes de cada navegación
- * Verifica autenticación y permisos
- */
+
+
+
+
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // Actualizar título de la página
+  
   document.title = to.meta.title
     ? `${to.meta.title} | Eventify`
     : 'Eventify - Gestión de Eventos'
 
-  // Log de navegación en desarrollo
+  
   if (import.meta.env.DEV) {
     console.log(`[Router] Navegando de ${from.path} a ${to.path}`)
   }
 
-  // -------------------------------------------------------------------------
-  // VERIFICAR SI LA RUTA ES SOLO PARA INVITADOS (guestOnly)
-  // -------------------------------------------------------------------------
+  
+  
+  
   if (to.meta.guestOnly && authStore.isAuthenticated) {
-    // Si está autenticado y trata de acceder a login/register, redirigir
+    
     console.log('[Router] Usuario autenticado intentando acceder a ruta de invitado, redirigiendo...')
 
-    // Redirigir según el rol
+    
     if (authStore.isAdmin || authStore.isOrganizer) {
       next('/admin/dashboard')
     } else {
@@ -306,21 +292,21 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  // -------------------------------------------------------------------------
-  // VERIFICAR SI LA RUTA REQUIERE AUTENTICACIÓN
-  // -------------------------------------------------------------------------
+  
+  
+  
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     console.log('[Router] Ruta protegida, redirigiendo a login')
     next({
       path: '/login',
-      query: { redirect: to.fullPath } // Guardar URL para redirigir después del login
+      query: { redirect: to.fullPath } 
     })
     return
   }
 
-  // -------------------------------------------------------------------------
-  // VERIFICAR PERMISOS POR ROL
-  // -------------------------------------------------------------------------
+  
+  
+  
   if (to.meta.requiresAuth && to.meta.roles) {
     const requiredRoles = to.meta.roles as UserRole[]
     const hasPermission = authStore.hasAnyRole(requiredRoles)
@@ -332,60 +318,53 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  // -------------------------------------------------------------------------
-  // PERMITIR NAVEGACIÓN
-  // -------------------------------------------------------------------------
+  
+  
+  
   next()
 })
 
-/**
- * Guard que se ejecuta después de cada navegación
- * Útil para analytics, logs, etc.
- */
+
 router.afterEach((to, from) => {
   if (import.meta.env.DEV) {
     console.log(`[Router] Navegación completada: ${to.path}`)
   }
 
-  // TODO: Aquí se puede añadir tracking de Google Analytics
-  // if (window.gtag) {
-  //   window.gtag('config', 'GA_MEASUREMENT_ID', {
-  //     page_path: to.path
-  //   })
-  // }
+  
+  
+  
+  
+  
+  
 })
 
-/**
- * Manejador de errores de navegación
- */
+
 router.onError((error) => {
   console.error('[Router] Error de navegación:', error)
 })
 
-// -----------------------------------------------------------------------------
-// EXPORTAR ROUTER
-// -----------------------------------------------------------------------------
+
+
+
 
 export default router
 
-// -----------------------------------------------------------------------------
-// TIPOS PARA META DE RUTAS
-// -----------------------------------------------------------------------------
 
-/**
- * Extender tipos de Vue Router para incluir nuestra meta personalizada
- */
+
+
+
+
 declare module 'vue-router' {
   interface RouteMeta {
-    /** Título de la página */
+    
     title?: string
-    /** Layout a usar (default, admin, auth) */
+    
     layout?: 'default' | 'admin' | 'auth'
-    /** Indica si la ruta requiere autenticación */
+    
     requiresAuth?: boolean
-    /** Roles permitidos para acceder a la ruta */
+    
     roles?: UserRole[]
-    /** Indica si la ruta es solo para invitados (no autenticados) */
+    
     guestOnly?: boolean
   }
 }

@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Locations;
 
-/// <summary>
-/// DTO completo de ubicación
-/// </summary>
+
+
+
 public class LocationDto
 {
     public int Id { get; set; }

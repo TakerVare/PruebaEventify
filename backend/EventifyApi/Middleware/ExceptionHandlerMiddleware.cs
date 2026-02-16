@@ -5,9 +5,9 @@ using System.Text.Json;
 
 namespace EventifyApi.Middleware;
 
-/// <summary>
-/// Middleware para manejo global de excepciones
-/// </summary>
+
+
+
 public class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
@@ -82,7 +82,7 @@ public class ExceptionHandlerMiddleware
 
         var jsonResponse = JsonSerializer.Serialize(response, new JsonSerializerOptions
         {
-            PropertyNamingPolicy = null // PascalCase
+            PropertyNamingPolicy = null 
         });
 
         await context.Response.WriteAsync(jsonResponse);

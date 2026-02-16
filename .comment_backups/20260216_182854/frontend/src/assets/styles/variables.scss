@@ -1,0 +1,168 @@
+/**
+ * =============================================================================
+ * VARIABLES.SCSS - Variables SASS Globales
+ * =============================================================================
+ * Este archivo contiene variables SASS que se inyectan automáticamente
+ * en todos los archivos SCSS del proyecto (ver vite.config.ts).
+ *
+ * IMPORTANTE: Este archivo NO debe contener CSS, solo variables.
+ * =============================================================================
+ */
+
+// =============================================================================
+// COLORES PERSONALIZADOS
+// =============================================================================
+
+// Colores primarios
+$primary: #1976D2;
+$primary-darken: #1565C0;
+$primary-lighten: #42A5F5;
+
+// Colores secundarios
+$secondary: #424242;
+$secondary-darken: #212121;
+$secondary-lighten: #616161;
+
+// Colores de acento
+$accent: #82B1FF;
+$accent-darken: #448AFF;
+$accent-lighten: #B3D9FF;
+
+// Colores semánticos
+$success: #4CAF50;
+$info: #2196F3;
+$warning: #FB8C00;
+$error: #FF5252;
+
+// =============================================================================
+// ESPACIADO (Basado en sistema de 8px)
+// =============================================================================
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// =============================================================================
+// TIPOGRAFÍA
+// =============================================================================
+
+// Familias de fuentes
+$font-family-base: 'Roboto', sans-serif;
+$font-family-heading: 'Roboto', sans-serif;
+$font-family-mono: 'Roboto Mono', monospace;
+
+// Tamaños de fuente
+$font-size-xs: 0.75rem;   // 12px
+$font-size-sm: 0.875rem;  // 14px
+$font-size-base: 1rem;    // 16px
+$font-size-lg: 1.125rem;  // 18px
+$font-size-xl: 1.25rem;   // 20px
+$font-size-xxl: 1.5rem;   // 24px
+$font-size-xxxl: 2rem;    // 32px
+
+// Pesos de fuente
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Alturas de línea
+$line-height-tight: 1.25;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+// =============================================================================
+// BORDES Y SOMBRAS
+// =============================================================================
+
+// Radio de bordes
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-round: 50%;
+
+// Grosor de bordes
+$border-width-thin: 1px;
+$border-width-medium: 2px;
+$border-width-thick: 4px;
+
+// Sombras
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+$shadow-md: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+$shadow-xl: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+
+// =============================================================================
+// TRANSICIONES Y ANIMACIONES
+// =============================================================================
+
+// Duraciones
+$transition-fast: 150ms;
+$transition-base: 200ms;
+$transition-slow: 300ms;
+$transition-slower: 500ms;
+
+// Funciones de timing
+$transition-ease: ease;
+$transition-ease-in: ease-in;
+$transition-ease-out: ease-out;
+$transition-ease-in-out: ease-in-out;
+
+// =============================================================================
+// BREAKPOINTS (Deben coincidir con Vuetify)
+// =============================================================================
+
+$breakpoint-xs: 0;
+$breakpoint-sm: 600px;
+$breakpoint-md: 960px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1920px;
+
+// =============================================================================
+// Z-INDEX
+// =============================================================================
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// =============================================================================
+// CONTENEDORES
+// =============================================================================
+
+$container-max-width-sm: 600px;
+$container-max-width-md: 960px;
+$container-max-width-lg: 1280px;
+$container-max-width-xl: 1920px;
+
+// =============================================================================
+// COMPONENTES PERSONALIZADOS
+// =============================================================================
+
+// Cards
+$card-padding: $spacing-lg;
+$card-border-radius: $border-radius-lg;
+$card-shadow: $shadow-md;
+
+// Botones
+$button-padding-x: $spacing-md;
+$button-padding-y: $spacing-sm;
+$button-border-radius: $border-radius-md;
+
+// Inputs
+$input-padding-x: $spacing-md;
+$input-padding-y: $spacing-sm;
+$input-border-radius: $border-radius-sm;
+$input-border-width: $border-width-thin;
+
+// Header/Footer
+$header-height: 64px;
+$footer-height: 80px;

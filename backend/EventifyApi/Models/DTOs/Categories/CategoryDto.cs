@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Categories;
 
-/// <summary>
-/// DTO completo de categoría
-/// </summary>
+
+
+
 public class CategoryDto
 {
     public int Id { get; set; }

@@ -4,9 +4,9 @@ using EventifyApi.Models.Entities.Enums;
 
 namespace EventifyApi.Models.DTOs.Registrations;
 
-/// <summary>
-/// DTO completo de inscripción
-/// </summary>
+
+
+
 public class RegistrationDto
 {
     public int Id { get; set; }
@@ -16,7 +16,7 @@ public class RegistrationDto
     public DateTime RegistrationDate { get; set; }
     public string? Notes { get; set; }
 
-    // Relaciones
+    
     public UserSummaryDto? User { get; set; }
     public EventSummaryDto? Event { get; set; }
 }

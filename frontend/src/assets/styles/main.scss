@@ -1,20 +1,13 @@
 @use './variables' as *;
-// Importar variables
-
-/**
- * =============================================================================
- * MAIN.SCSS - Estilos Globales de la Aplicación
- * =============================================================================
- * Este archivo contiene estilos globales que se aplican a toda la aplicación.
- * Se importa en main.ts.
- * =============================================================================
- */
 
 
 
-// =============================================================================
-// RESET Y NORMALIZACIÓN
-// =============================================================================
+
+
+
+
+
+
 
 * {
   box-sizing: border-box;
@@ -23,13 +16,13 @@
 }
 
 html {
-  // Scroll suave para navegación
+  
   scroll-behavior: smooth;
 
-  // Tamaño base de fuente (1rem = 16px)
+  
   font-size: 16px;
 
-  // Anti-aliasing para mejor renderizado de fuentes
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -38,13 +31,13 @@ body {
   font-family: $font-family-base;
   line-height: $line-height-normal;
 
-  // Evitar scroll horizontal
+  
   overflow-x: hidden;
 }
 
-// =============================================================================
-// TIPOGRAFÍA GLOBAL
-// =============================================================================
+
+
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-family-heading;
@@ -91,11 +84,11 @@ a {
   }
 }
 
-// =============================================================================
-// UTILIDADES GLOBALES
-// =============================================================================
 
-// Clase para ocultar visualmente pero mantener accesibilidad
+
+
+
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -108,19 +101,19 @@ a {
   border: 0;
 }
 
-// Clase para deshabilitar selección de texto
+
 .no-select {
   user-select: none;
 }
 
-// Clase para texto truncado con ellipsis
+
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-// Clase para texto de múltiples líneas con ellipsis
+
 .text-clamp {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -128,11 +121,11 @@ a {
   overflow: hidden;
 }
 
-// =============================================================================
-// ANIMACIONES PERSONALIZADAS
-// =============================================================================
 
-// Fade in
+
+
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -142,7 +135,7 @@ a {
   }
 }
 
-// Slide up
+
 @keyframes slideUp {
   from {
     transform: translateY(20px);
@@ -154,7 +147,7 @@ a {
   }
 }
 
-// Slide down
+
 @keyframes slideDown {
   from {
     transform: translateY(-20px);
@@ -166,7 +159,7 @@ a {
   }
 }
 
-// Pulse
+
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -176,7 +169,7 @@ a {
   }
 }
 
-// Clases de animación
+
 .animate-fade-in {
   animation: fadeIn $transition-base $transition-ease;
 }
@@ -193,9 +186,9 @@ a {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-// =============================================================================
-// SCROLLBAR PERSONALIZADA (solo Webkit/Chrome/Safari)
-// =============================================================================
+
+
+
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -215,27 +208,27 @@ a {
   }
 }
 
-// =============================================================================
-// CLASES DE ESPACIADO PERSONALIZADAS
-// =============================================================================
 
-// Padding
+
+
+
+
 .pa-xs { padding: $spacing-xs !important; }
 .pa-sm { padding: $spacing-sm !important; }
 .pa-md { padding: $spacing-md !important; }
 .pa-lg { padding: $spacing-lg !important; }
 .pa-xl { padding: $spacing-xl !important; }
 
-// Margin
+
 .ma-xs { margin: $spacing-xs !important; }
 .ma-sm { margin: $spacing-sm !important; }
 .ma-md { margin: $spacing-md !important; }
 .ma-lg { margin: $spacing-lg !important; }
 .ma-xl { margin: $spacing-xl !important; }
 
-// =============================================================================
-// CLASES DE DISPLAY PERSONALIZADAS
-// =============================================================================
+
+
+
 
 .d-flex-center {
   display: flex !important;
@@ -249,11 +242,11 @@ a {
   justify-content: space-between !important;
 }
 
-// =============================================================================
-// COMPONENTES PERSONALIZADOS
-// =============================================================================
 
-// Card con hover effect
+
+
+
+
 .card-hover {
   transition: transform $transition-base $transition-ease,
               box-shadow $transition-base $transition-ease;
@@ -264,7 +257,7 @@ a {
   }
 }
 
-// Badge de estado
+
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -276,7 +269,7 @@ a {
   letter-spacing: 0.5px;
 }
 
-// Container con ancho máximo
+
 .container-custom {
   max-width: $container-max-width-lg;
   margin-left: auto;
@@ -285,35 +278,35 @@ a {
   padding-right: $spacing-md;
 }
 
-// =============================================================================
-// CLASES RESPONSIVE
-// =============================================================================
 
-// Ocultar en móvil
+
+
+
+
 @media (max-width: $breakpoint-sm - 1) {
   .hide-sm-and-down {
     display: none !important;
   }
 }
 
-// Ocultar en tablet y escritorio
+
 @media (min-width: $breakpoint-sm) {
   .hide-sm-and-up {
     display: none !important;
   }
 }
 
-// =============================================================================
-// MEJORAS DE ACCESIBILIDAD
-// =============================================================================
 
-// Focus visible para navegación por teclado
+
+
+
+
 *:focus-visible {
   outline: 2px solid rgb(var(--v-theme-primary));
   outline-offset: 2px;
 }
 
-// Reducir movimiento para usuarios con preferencias de accesibilidad
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -325,12 +318,12 @@ a {
   }
 }
 
-// =============================================================================
-// TEMAS PERSONALIZADOS (variables CSS para temas dinámicos)
-// =============================================================================
+
+
+
 
 :root {
-  // Variables CSS personalizadas que pueden cambiar con el tema
+  
   --app-header-height: #{$header-height};
   --app-footer-height: #{$footer-height};
 }

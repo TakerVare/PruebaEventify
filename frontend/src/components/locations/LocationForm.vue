@@ -1,19 +1,4 @@
-<!--
-  =============================================================================
-  LOCATION FORM - Formulario de ubicación
-  =============================================================================
-  Componente reutilizable para crear y editar ubicaciones.
-  Incluye validación con VeeValidate y Yup.
 
-  Props:
-  - location: Ubicación a editar (opcional, para modo edición)
-  - loading: Estado de carga del formulario
-
-  Emits:
-  - submit: Emite los datos del formulario al enviar
-  - cancel: Emite evento cuando se cancela
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -22,7 +7,7 @@ import { useI18n } from 'vue-i18n'
 import { useValidation } from '@/composables/useValidation'
 import type { Location, CreateLocationDto, UpdateLocationDto } from '@/types'
 
-// Props
+
 interface Props {
   location?: Location
   loading?: boolean
@@ -33,7 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false
 })
 
-// Emits
+
 const emit = defineEmits<{
   submit: [data: CreateLocationDto | UpdateLocationDto]
   cancel: []
@@ -42,7 +27,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { locationSchema } = useValidation()
 
-// Formulario
+
 const {
   defineField,
   handleSubmit,
@@ -75,10 +60,10 @@ const [capacity] = defineField('capacity')
 const [description] = defineField('description')
 const [isActive] = defineField('isActive')
 
-// Computados
+
 const isEditMode = computed(() => !!props.location)
 
-// Métodos
+
 const onSubmit = handleSubmit((values) => {
   const formData: CreateLocationDto | UpdateLocationDto = {
     name: values.name,
@@ -100,7 +85,7 @@ function handleCancel() {
 <template>
   <v-form @submit.prevent="onSubmit">
     <v-row>
-      <!-- Nombre -->
+      
       <v-col cols="12" md="6">
         <v-text-field
           v-model="name"
@@ -111,7 +96,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Ciudad -->
+      
       <v-col cols="12" md="6">
         <v-text-field
           v-model="city"
@@ -122,7 +107,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Dirección -->
+      
       <v-col cols="12">
         <v-text-field
           v-model="address"
@@ -133,7 +118,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Capacidad -->
+      
       <v-col cols="12" md="6">
         <v-text-field
           v-model="capacity"
@@ -144,7 +129,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Estado activo -->
+      
       <v-col cols="12" md="6">
         <v-switch
           v-model="isActive"
@@ -155,7 +140,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Descripción -->
+      
       <v-col cols="12">
         <v-textarea
           v-model="description"
@@ -167,7 +152,7 @@ function handleCancel() {
         />
       </v-col>
 
-      <!-- Botones de acción -->
+      
       <v-col cols="12">
         <v-divider class="mb-4" />
         <div class="d-flex ga-2 justify-end">
@@ -194,5 +179,5 @@ function handleCancel() {
 </template>
 
 <style scoped lang="scss">
-// Estilos específicos si son necesarios
+
 </style>

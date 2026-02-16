@@ -1,15 +1,4 @@
-<!--
-  =============================================================================
-  MY REGISTRATIONS VIEW - Vista de mis registros
-  =============================================================================
-  Vista privada donde el usuario puede:
-  - Ver todos sus registros a eventos
-  - Filtrar por estado (próximos, pasados, cancelados)
-  - Ver detalles del evento
-  - Cancelar registros
-  - Ver estado de asistencia
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -24,14 +13,14 @@ const { t, d } = useI18n()
 const registrationsStore = useRegistrationsStore()
 const uiStore = useUiStore()
 
-// Estado
+
 const loading = ref(true)
 const filter = ref<'all' | 'upcoming' | 'past' | 'cancelled'>('upcoming')
 const showCancelDialog = ref(false)
 const selectedRegistrationId = ref<number | null>(null)
 const cancelling = ref(false)
 
-// Computados
+
 const filteredRegistrations = computed(() => {
   switch (filter.value) {
     case 'upcoming':
@@ -62,7 +51,7 @@ const filterTabs = computed(() => [
   { value: 'all', title: 'Todos', count: stats.value.total, icon: 'mdi-calendar-multiple' }
 ])
 
-// Métodos
+
 function getStatusColor(status: string): string {
   switch (status) {
     case 'Confirmed':
@@ -130,7 +119,7 @@ async function confirmCancel() {
   }
 }
 
-// Cargar registros al montar
+
 onMounted(async () => {
   loading.value = true
 
@@ -147,7 +136,7 @@ onMounted(async () => {
 
 <template>
   <v-container class="my-registrations-view py-8">
-    <!-- Encabezado -->
+    
     <div class="mb-6">
       <h1 class="text-h4 font-weight-bold mb-2">
         Mis Registros
@@ -157,7 +146,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <!-- Estadísticas rápidas -->
+    
     <v-row class="mb-6">
       <v-col
         v-for="tab in filterTabs"
@@ -195,7 +184,7 @@ onMounted(async () => {
       </v-col>
     </v-row>
 
-    <!-- Loading -->
+    
     <div v-if="loading" class="text-center py-12">
       <v-progress-circular
         indeterminate
@@ -204,7 +193,7 @@ onMounted(async () => {
       />
     </div>
 
-    <!-- Lista de registros -->
+    
     <div v-else-if="filteredRegistrations.length > 0">
       <v-row>
         <v-col
@@ -214,7 +203,7 @@ onMounted(async () => {
         >
           <v-card hover class="registration-card">
             <v-row no-gutters>
-              <!-- Imagen del evento -->
+              
               <v-col cols="12" sm="4" md="3">
                 <v-img
                   :src="registration.event.imageUrl || 'https://via.placeholder.com/300x200'"
@@ -224,12 +213,12 @@ onMounted(async () => {
                 />
               </v-col>
 
-              <!-- Información del registro -->
+              
               <v-col cols="12" sm="8" md="9">
                 <v-card-text class="pa-4">
                   <div class="d-flex justify-space-between align-start mb-3">
                     <div>
-                      <!-- Título del evento -->
+                      
                       <h3
                         class="text-h6 mb-2 cursor-pointer"
                         @click="router.push(`/events/${registration.event.id}`)"
@@ -237,7 +226,7 @@ onMounted(async () => {
                         {{ registration.event.title }}
                       </h3>
 
-                      <!-- Categoría -->
+                      
                       <v-chip
                         v-if="registration.event.category"
                         :color="registration.event.category.color"
@@ -247,7 +236,7 @@ onMounted(async () => {
                         {{ registration.event.category.name }}
                       </v-chip>
 
-                      <!-- Estado del registro -->
+                      
                       <v-chip
                         :color="getStatusColor(registration.status)"
                         size="small"
@@ -258,7 +247,7 @@ onMounted(async () => {
                     </div>
                   </div>
 
-                  <!-- Información del evento -->
+                  
                   <v-row dense class="mb-3">
                     <v-col cols="12" sm="6">
                       <div class="d-flex align-center text-body-2 mb-2">
@@ -282,7 +271,7 @@ onMounted(async () => {
                     </v-col>
                   </v-row>
 
-                  <!-- Acciones -->
+                  
                   <div class="d-flex ga-2">
                     <v-btn
                       color="primary"
@@ -313,7 +302,7 @@ onMounted(async () => {
       </v-row>
     </div>
 
-    <!-- Mensaje si no hay registros -->
+    
     <v-alert
       v-else
       type="info"
@@ -340,7 +329,7 @@ onMounted(async () => {
       </v-btn>
     </v-alert>
 
-    <!-- Diálogo de confirmación de cancelación -->
+    
     <v-dialog v-model="showCancelDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5">

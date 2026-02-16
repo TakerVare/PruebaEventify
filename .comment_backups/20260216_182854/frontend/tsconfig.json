@@ -1,0 +1,183 @@
+/**
+ * =============================================================================
+ * TSCONFIG.JSON - Configuración de TypeScript
+ * =============================================================================
+ * Configuración principal de TypeScript para el proyecto Vue 3.
+ * Incluye reglas estrictas y configuración optimizada para Vite.
+ * =============================================================================
+ */
+{
+  // Extensión de la configuración base de Vue
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+
+  // ===========================================================================
+  // OPCIONES DEL COMPILADOR
+  // ===========================================================================
+  "compilerOptions": {
+    // ---------------------------------------------------------------------------
+    // Configuración de módulos
+    // ---------------------------------------------------------------------------
+
+    /** Usar módulos ES6 (soportado nativamente por navegadores modernos) */
+    "module": "ESNext",
+
+    /** Resolución de módulos estilo Node */
+    "moduleResolution": "bundler",
+
+    /** Permitir importar JSON como módulos */
+    "resolveJsonModule": true,
+
+    // ---------------------------------------------------------------------------
+    // Configuración de JavaScript moderno
+    // ---------------------------------------------------------------------------
+
+    /** Compilar a ES2020 para mejor rendimiento y features modernos */
+    "target": "ES2020",
+
+    /** Librerías disponibles (DOM + ES2020) */
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+    // ---------------------------------------------------------------------------
+    // Configuración de Vue 3
+    // ---------------------------------------------------------------------------
+
+    /** Habilitar soporte JSX para Vue */
+    "jsx": "preserve",
+
+    /** Factory JSX para Vue 3 */
+    "jsxFactory": "h",
+
+    /** Fragment JSX */
+    "jsxFragmentFactory": "Fragment",
+
+    // ---------------------------------------------------------------------------
+    // Verificación de tipos estricta
+    // ---------------------------------------------------------------------------
+
+    /** Habilitar todas las verificaciones estrictas */
+    "strict": true,
+
+    /** No permitir any implícito */
+    "noImplicitAny": true,
+
+    /** Verificación estricta de null */
+    "strictNullChecks": true,
+
+    /** Verificación estricta de bind/call/apply */
+    "strictBindCallApply": true,
+
+    /** Verificación estricta de propiedades */
+    "strictPropertyInitialization": true,
+
+    /** No permitir funciones con implicit any */
+    "noImplicitThis": true,
+
+    /** Verificación estricta de funciones */
+    "strictFunctionTypes": true,
+
+    // ---------------------------------------------------------------------------
+    // Validaciones adicionales
+    // ---------------------------------------------------------------------------
+
+    /** Error en código inalcanzable */
+    "allowUnreachableCode": false,
+
+    /** Error en case statements sin fallthrough */
+    "noFallthroughCasesInSwitch": true,
+
+    /** Error en variables no usadas */
+    "noUnusedLocals": true,
+
+    /** Error en parámetros no usados */
+    "noUnusedParameters": true,
+
+    /** Verificar retorno implícito */
+    "noImplicitReturns": true,
+
+    // ---------------------------------------------------------------------------
+    // Configuración de rutas (path mapping)
+    // ---------------------------------------------------------------------------
+
+    /** Ruta base para resolución de módulos */
+    "baseUrl": ".",
+
+    /** Mapeo de rutas (@ = src/) */
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
+    // ---------------------------------------------------------------------------
+    // Interoperabilidad
+    // ---------------------------------------------------------------------------
+
+    /** Permitir importar módulos CommonJS como ES6 */
+    "esModuleInterop": true,
+
+    /** Habilitar sintaxis import type */
+    "allowSyntheticDefaultImports": true,
+
+    /** Forzar consistencia de case en imports */
+    "forceConsistentCasingInFileNames": true,
+
+    // ---------------------------------------------------------------------------
+    // Generación de código
+    // ---------------------------------------------------------------------------
+
+    /** Preservar constantes enum en el código generado */
+    "preserveConstEnums": true,
+
+    /** Usar decoradores experimentales (necesario para librerías como class-validator) */
+    "experimentalDecorators": true,
+
+    // ---------------------------------------------------------------------------
+    // Source Maps
+    // ---------------------------------------------------------------------------
+
+    /** Generar source maps para debugging */
+    "sourceMap": true,
+
+    // ---------------------------------------------------------------------------
+    // Otros
+    // ---------------------------------------------------------------------------
+
+    /** No emitir archivos .js (Vite se encarga) */
+    "noEmit": true,
+
+    /** Aislar módulos (mejor rendimiento de compilación) */
+    "isolatedModules": true,
+
+    /** Saltar verificación de librerías .d.ts (mejor rendimiento) */
+    "skipLibCheck": true,
+
+    /** Usar definiciones de tipos desde package.json */
+    "types": ["vite/client"]
+  },
+
+  // ===========================================================================
+  // INCLUSIONES
+  // ===========================================================================
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "vite.config.ts"
+  ],
+
+  // ===========================================================================
+  // EXCLUSIONES
+  // ===========================================================================
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.spec.ts"
+  ],
+
+  // ===========================================================================
+  // REFERENCIAS A OTROS PROYECTOS
+  // ===========================================================================
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}

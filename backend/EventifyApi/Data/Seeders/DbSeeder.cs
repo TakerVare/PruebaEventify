@@ -1,13 +1,13 @@
 namespace EventifyApi.Data.Seeders;
 
-/// <summary>
-/// Seeder principal que orquesta todos los seeders de datos
-/// </summary>
+
+
+
 public static class DbSeeder
 {
-    /// <summary>
-    /// Ejecuta todos los seeders en orden
-    /// </summary>
+    
+    
+    
     public static async Task SeedAsync(ApplicationDbContext context)
     {
         Console.WriteLine("=============================================================================");
@@ -16,7 +16,7 @@ public static class DbSeeder
 
         try
         {
-            // Ejecutar seeders en orden
+            
             await CategorySeeder.SeedAsync(context);
             await UserSeeder.SeedAsync(context);
 

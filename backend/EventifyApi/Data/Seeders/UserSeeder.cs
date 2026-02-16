@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventifyApi.Data.Seeders;
 
-/// <summary>
-/// Seeder de usuarios de prueba
-/// </summary>
+
+
+
 public static class UserSeeder
 {
-    /// <summary>
-    /// Inserta los usuarios de prueba en la base de datos
-    /// </summary>
+    
+    
+    
     public static async Task SeedAsync(ApplicationDbContext context)
     {
-        // Verificar si ya existen usuarios
+        
         if (await context.Users.AnyAsync())
         {
             Console.WriteLine("✓ Usuarios ya existen, omitiendo seeder...");
@@ -25,7 +25,7 @@ public static class UserSeeder
 
         var users = new List<User>
         {
-            // Administrador
+            
             new User
             {
                 Email = "admin@eventify.com",
@@ -36,7 +36,7 @@ public static class UserSeeder
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             },
-            // Organizador
+            
             new User
             {
                 Email = "organizador@eventify.com",
@@ -47,7 +47,7 @@ public static class UserSeeder
                 IsActive = true,
                 CreatedAt = DateTime.UtcNow
             },
-            // Usuario regular
+            
             new User
             {
                 Email = "usuario@eventify.com",

@@ -1,19 +1,4 @@
-<!--
-  =============================================================================
-  ADMIN LAYOUT - Layout para panel de administración
-  =============================================================================
-  Layout utilizado en las páginas de administración:
-  - Dashboard
-  - Gestión de eventos
-  - Gestión de ubicaciones
-  - Gestión de usuarios
 
-  Incluye:
-  - App bar de administración
-  - Navigation drawer con menú
-  - Contenido principal con breadcrumbs
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -28,7 +13,7 @@ const authStore = useAuthStore()
 const uiStore = useUiStore()
 const { mobile } = useDisplay()
 
-// Estado del drawer (sincronizado con el store)
+
 const drawer = computed({
   get: () => uiStore.drawerOpen,
   set: (value) => {
@@ -40,7 +25,7 @@ const drawer = computed({
   }
 })
 
-// Inicializar drawer según el tamaño de pantalla
+
 if (!mobile.value) {
   uiStore.openDrawer()
   uiStore.setDrawerPersistent(true)
@@ -48,7 +33,7 @@ if (!mobile.value) {
   uiStore.setDrawerPersistent(false)
 }
 
-// Items del menú de navegación
+
 const menuItems = computed(() => {
   const items = [
     {
@@ -77,13 +62,13 @@ const menuItems = computed(() => {
     }
   ]
 
-  // Filtrar items según el rol del usuario
+  
   return items.filter(item => {
     return authStore.hasAnyRole(item.roles as any)
   })
 })
 
-// Función para cerrar sesión
+
 async function handleLogout() {
   await authStore.logout()
   router.push('/login')
@@ -92,27 +77,23 @@ async function handleLogout() {
 
 <template>
   <div class="admin-layout">
-    <!--
-      =========================================================================
-      APP BAR DE ADMINISTRACIÓN
-      =========================================================================
-    -->
+    
     <v-app-bar
       color="primary"
       prominent
       elevate-on-scroll
     >
-      <!-- Botón de menú -->
+      
       <v-app-bar-nav-icon @click="drawer = !drawer" />
 
-      <!-- Título -->
+      
       <v-app-bar-title>
         <span class="text-h6 font-weight-bold">Eventify Admin</span>
       </v-app-bar-title>
 
       <v-spacer />
 
-      <!-- Selector de idioma -->
+      
       <v-btn
         icon
         @click="uiStore.toggleLocale()"
@@ -120,7 +101,7 @@ async function handleLogout() {
         <v-icon>{{ uiStore.locale === 'es' ? 'mdi-flag-variant' : 'mdi-flag-variant-outline' }}</v-icon>
       </v-btn>
 
-      <!-- Selector de tema -->
+      
       <v-btn
         icon
         @click="uiStore.toggleTheme()"
@@ -128,7 +109,7 @@ async function handleLogout() {
         <v-icon>{{ uiStore.isDarkTheme ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
       </v-btn>
 
-      <!-- Menú de usuario -->
+      
       <v-menu>
         <template #activator="{ props }">
           <v-btn
@@ -176,17 +157,13 @@ async function handleLogout() {
       </v-menu>
     </v-app-bar>
 
-    <!--
-      =========================================================================
-      NAVIGATION DRAWER
-      =========================================================================
-    -->
+    
     <v-navigation-drawer
       v-model="drawer"
       :permanent="!mobile && uiStore.drawerPersistent"
       :temporary="mobile"
     >
-      <!-- Logo y título -->
+      
       <v-list>
         <v-list-item
           class="px-2"
@@ -203,7 +180,7 @@ async function handleLogout() {
 
       <v-divider />
 
-      <!-- Menú de navegación -->
+      
       <v-list density="comfortable" nav>
         <v-list-item
           v-for="item in menuItems"
@@ -217,14 +194,10 @@ async function handleLogout() {
       </v-list>
     </v-navigation-drawer>
 
-    <!--
-      =========================================================================
-      CONTENIDO PRINCIPAL
-      =========================================================================
-    -->
+    
     <v-main>
       <v-container fluid>
-        <!-- Breadcrumbs -->
+        
         <v-breadcrumbs
           class="px-0 pt-2"
           :items="[
@@ -233,7 +206,7 @@ async function handleLogout() {
           ]"
         />
 
-        <!-- Contenido de la vista -->
+        
         <router-view v-slot="{ Component, route: viewRoute }">
           <transition name="fade" mode="out-in">
             <component :is="Component" :key="viewRoute.path" />

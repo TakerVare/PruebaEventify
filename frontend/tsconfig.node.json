@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    /* =========================================================================
-     * CONFIGURACIÓN TYPESCRIPT PARA ARCHIVOS DE CONFIGURACIÓN DE NODE
-     * =========================================================================
-     * Se usa para vite.config.ts y otros archivos de configuración
-     * ========================================================================= */
+    
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",

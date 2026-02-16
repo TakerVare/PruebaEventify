@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventifyApi.Validators.Locations;
 
-/// <summary>
-/// Validador para CreateLocationDto
-/// </summary>
+
+
+
 public class CreateLocationDtoValidator : AbstractValidator<CreateLocationDto>
 {
     public CreateLocationDtoValidator()

@@ -1,16 +1,4 @@
-/**
- * =============================================================================
- * USE AUTH - Composable de autenticación
- * =============================================================================
- * Composable que proporciona funcionalidades de autenticación de manera
- * reutilizable en cualquier componente.
- *
- * Uso:
- * ```ts
- * const { isAuthenticated, user, login, logout } = useAuth()
- * ```
- * =============================================================================
- */
+
 
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -21,9 +9,9 @@ export function useAuth() {
   const authStore = useAuthStore()
   const router = useRouter()
 
-  // ===========================================================================
-  // GETTERS COMPUTADOS
-  // ===========================================================================
+  
+  
+  
 
   const isAuthenticated = computed(() => authStore.isAuthenticated)
   const user = computed(() => authStore.user)
@@ -34,20 +22,16 @@ export function useAuth() {
   const userInitials = computed(() => authStore.userInitials)
   const loading = computed(() => authStore.loading)
 
-  // ===========================================================================
-  // MÉTODOS
-  // ===========================================================================
+  
+  
+  
 
-  /**
-   * Inicia sesión y redirige al usuario
-   * @param credentials - Email y contraseña
-   * @param redirectTo - Ruta a la que redirigir después del login
-   */
+  
   async function login(credentials: LoginDto, redirectTo = '/') {
     const success = await authStore.login(credentials)
 
     if (success) {
-      // Redirigir según el rol del usuario
+      
       if (authStore.isAdmin || authStore.isOrganizer) {
         router.push('/admin/dashboard')
       } else {
@@ -58,10 +42,7 @@ export function useAuth() {
     return success
   }
 
-  /**
-   * Registra un nuevo usuario y lo redirige
-   * @param data - Datos de registro
-   */
+  
   async function register(data: RegisterDto) {
     const success = await authStore.register(data)
 
@@ -72,33 +53,23 @@ export function useAuth() {
     return success
   }
 
-  /**
-   * Cierra sesión y redirige al login
-   */
+  
   async function logout() {
     await authStore.logout()
     router.push('/login')
   }
 
-  /**
-   * Verifica si el usuario tiene un rol específico
-   * @param role - Rol a verificar
-   */
+  
   function hasRole(role: string) {
     return authStore.hasRole(role as any)
   }
 
-  /**
-   * Verifica si el usuario puede acceder a una ruta
-   * @param requiredRoles - Roles requeridos
-   */
+  
   function canAccess(requiredRoles?: string[]) {
     return authStore.canAccess(requiredRoles as any)
   }
 
-  /**
-   * Redirige al usuario si no está autenticado
-   */
+  
   function requireAuth() {
     if (!isAuthenticated.value) {
       router.push('/login')
@@ -107,10 +78,7 @@ export function useAuth() {
     return true
   }
 
-  /**
-   * Redirige al usuario si no tiene el rol requerido
-   * @param requiredRoles - Roles requeridos
-   */
+  
   function requireRole(requiredRoles: string[]) {
     if (!requireAuth()) return false
 
@@ -122,12 +90,12 @@ export function useAuth() {
     return true
   }
 
-  // ===========================================================================
-  // RETURN
-  // ===========================================================================
+  
+  
+  
 
   return {
-    // Getters
+    
     isAuthenticated,
     user,
     isAdmin,
@@ -137,7 +105,7 @@ export function useAuth() {
     userInitials,
     loading,
 
-    // Métodos
+    
     login,
     register,
     logout,

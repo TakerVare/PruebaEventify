@@ -5,9 +5,9 @@ using EventifyApi.Models.Entities.Enums;
 
 namespace EventifyApi.Models.DTOs.Events;
 
-/// <summary>
-/// DTO completo de evento con relaciones
-/// </summary>
+
+
+
 public class EventDto
 {
     public int Id { get; set; }
@@ -22,12 +22,12 @@ public class EventDto
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
 
-    // Relaciones
+    
     public LocationSummaryDto Location { get; set; } = null!;
     public UserSummaryDto Organizer { get; set; } = null!;
     public CategoryDto Category { get; set; } = null!;
 
-    // Propiedades calculadas
+    
     public bool IsFull => RegisteredCount >= Capacity;
     public int AvailableSpots => Math.Max(0, Capacity - RegisteredCount);
     public double OccupancyPercentage => Capacity > 0 ? (RegisteredCount * 100.0 / Capacity) : 0;

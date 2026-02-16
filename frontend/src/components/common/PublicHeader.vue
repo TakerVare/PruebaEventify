@@ -1,16 +1,4 @@
-<!--
-  =============================================================================
-  PUBLIC HEADER - Header para vistas públicas
-  =============================================================================
-  Componente de encabezado para las páginas públicas de la aplicación.
 
-  Incluye:
-  - Logo y nombre de la aplicación
-  - Navegación principal
-  - Selector de idioma y tema
-  - Botones de login/registro o menú de usuario
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -20,7 +8,7 @@ import { useDisplay } from 'vuetify'
 import { useAuthStore } from '@/stores/auth'
 import { useUiStore } from '@/stores/ui'
 
-// Emits
+
 const emit = defineEmits<{
   (e: 'toggle-drawer'): void
 }>()
@@ -31,13 +19,13 @@ const { mobile } = useDisplay()
 const authStore = useAuthStore()
 const uiStore = useUiStore()
 
-// Items de navegación
+
 const navItems = [
   { title: t('nav.home'), icon: 'mdi-home', to: '/' },
   { title: t('nav.events'), icon: 'mdi-calendar', to: '/events' }
 ]
 
-// Cerrar sesión
+
 async function handleLogout() {
   await authStore.logout()
   router.push('/')
@@ -49,19 +37,19 @@ async function handleLogout() {
     elevation="2"
     color="surface"
   >
-    <!-- Botón de menú móvil -->
+    
     <v-app-bar-nav-icon
       v-if="mobile"
       @click="emit('toggle-drawer')"
     />
 
-    <!-- Logo y título -->
+    
     <v-app-bar-title class="d-flex align-center cursor-pointer" @click="router.push('/')">
       <v-icon size="32" color="primary" class="mr-2">mdi-calendar-star</v-icon>
       <span class="text-h6 font-weight-bold text-primary">Eventify</span>
     </v-app-bar-title>
 
-    <!-- Navegación principal (solo desktop) -->
+    
     <template v-if="!mobile">
       <v-btn
         v-for="item in navItems"
@@ -76,7 +64,7 @@ async function handleLogout() {
 
     <v-spacer />
 
-    <!-- Selector de idioma -->
+    
     <v-btn
       icon
       variant="text"
@@ -89,7 +77,7 @@ async function handleLogout() {
       </v-tooltip>
     </v-btn>
 
-    <!-- Selector de tema -->
+    
     <v-btn
       icon
       variant="text"
@@ -102,9 +90,9 @@ async function handleLogout() {
       </v-tooltip>
     </v-btn>
 
-    <!-- Botones de autenticación o menú de usuario -->
+    
     <template v-if="authStore.isAuthenticated">
-      <!-- Usuario autenticado: mostrar menú -->
+      
       <v-menu>
         <template #activator="{ props }">
           <v-btn
@@ -164,7 +152,7 @@ async function handleLogout() {
     </template>
 
     <template v-else>
-      <!-- Usuario no autenticado: mostrar botones de login/registro -->
+      
       <v-btn
         variant="text"
         :prepend-icon="mobile ? undefined : 'mdi-login'"

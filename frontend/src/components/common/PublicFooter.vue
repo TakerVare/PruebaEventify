@@ -1,16 +1,4 @@
-<!--
-  =============================================================================
-  PUBLIC FOOTER - Footer para vistas públicas
-  =============================================================================
-  Componente de pie de página para las páginas públicas de la aplicación.
 
-  Incluye:
-  - Información de la empresa
-  - Enlaces útiles
-  - Redes sociales
-  - Copyright
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
@@ -19,7 +7,7 @@ const { t } = useI18n()
 
 const currentYear = new Date().getFullYear()
 
-// Enlaces de navegación del footer
+
 const footerLinks = [
   {
     title: 'Empresa',
@@ -50,7 +38,7 @@ const footerLinks = [
   }
 ]
 
-// Redes sociales
+
 const socialLinks = [
   { icon: 'mdi-facebook', href: '#', label: 'Facebook' },
   { icon: 'mdi-twitter', href: '#', label: 'Twitter' },
@@ -65,15 +53,15 @@ const socialLinks = [
     elevation="8"
   >
     <v-container>
-      <!-- Contenido principal del footer -->
+      
       <v-row>
-        <!-- Columna 1: Información de la empresa -->
+        
         <v-col
           cols="12"
           md="4"
           class="mb-4 mb-md-0"
         >
-          <!-- Logo y descripción -->
+          
           <div class="d-flex align-center mb-4">
             <v-icon size="32" color="primary" class="mr-2">mdi-calendar-star</v-icon>
             <span class="text-h6 font-weight-bold text-primary">Eventify</span>
@@ -84,7 +72,7 @@ const socialLinks = [
             Conectamos organizadores con asistentes de manera simple y efectiva.
           </p>
 
-          <!-- Redes sociales -->
+          
           <div class="d-flex ga-2">
             <v-btn
               v-for="social in socialLinks"
@@ -98,7 +86,7 @@ const socialLinks = [
           </div>
         </v-col>
 
-        <!-- Columnas 2-4: Enlaces -->
+        
         <v-col
           v-for="section in footerLinks"
           :key="section.title"
@@ -129,7 +117,7 @@ const socialLinks = [
 
       <v-divider class="my-4" />
 
-      <!-- Copyright y enlaces legales -->
+      
       <v-row>
         <v-col cols="12" class="text-center text-md-start">
           <p class="text-caption text-medium-emphasis mb-0">
@@ -142,5 +130,5 @@ const socialLinks = [
 </template>
 
 <style scoped lang="scss">
-// Estilos adicionales si son necesarios
+
 </style>

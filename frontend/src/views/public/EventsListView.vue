@@ -1,15 +1,4 @@
-<!--
-  =============================================================================
-  EVENTS LIST VIEW - Vista de listado de eventos
-  =============================================================================
-  Vista pública que muestra todos los eventos disponibles con:
-  - Filtros de búsqueda (texto, categoría, ubicación, fechas)
-  - Ordenación
-  - Paginación
-  - Grid responsive de eventos
-  - Estados de carga y vacío
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -26,7 +15,7 @@ const route = useRoute()
 const { t } = useI18n()
 const eventsStore = useEventsStore()
 
-// Estado
+
 const loading = ref(true)
 const currentFilters = ref<EventSearchParams>({
   page: 1,
@@ -34,7 +23,7 @@ const currentFilters = ref<EventSearchParams>({
   status: 'Published'
 })
 
-// Paginación
+
 const {
   currentPage,
   pageSize,
@@ -48,19 +37,19 @@ const {
   updateTotalCount
 } = usePagination(12)
 
-// Computados
-// Usar la ref computada del store directamente para evitar anidamiento
+
+
 const events = eventsStore.publishedEvents
 
 const displayedEvents = computed(() => {
-  // En producción, la paginación la hace el backend
-  // Aquí simulamos paginación del lado del cliente para el desarrollo
+  
+  
   const start = (currentPage.value - 1) * pageSize.value
   const end = start + pageSize.value
   return events.value.slice(start, end)
 })
 
-// Métodos
+
 async function loadEvents(filters: EventSearchParams) {
   loading.value = true
   currentFilters.value = filters
@@ -68,8 +57,8 @@ async function loadEvents(filters: EventSearchParams) {
   try {
     await eventsStore.fetchEvents(filters)
 
-    // Actualizar contador de paginación
-    // En producción, esto vendría del backend
+    
+    
     updateTotalCount(events.value.length)
   } catch (error) {
     console.error('Error loading events:', error)
@@ -79,7 +68,7 @@ async function loadEvents(filters: EventSearchParams) {
 }
 
 function handleFilter(filters: EventSearchParams) {
-  // Resetear a página 1 cuando cambian los filtros
+  
   changePage(1)
   filters.page = currentPage.value
   filters.pageSize = pageSize.value
@@ -91,13 +80,13 @@ function handlePageChange(page: number) {
   currentFilters.value.page = page
   loadEvents(currentFilters.value)
 
-  // Scroll to top suavemente
+  
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// Cargar eventos iniciales
+
 onMounted(async () => {
-  // Leer filtros de la URL si existen
+  
   const categoryId = route.query.categoryId
   if (categoryId) {
     currentFilters.value.categoryId = Number(categoryId)
@@ -109,7 +98,7 @@ onMounted(async () => {
 
 <template>
   <v-container class="events-list-view py-8">
-    <!-- Título de la página -->
+    
     <div class="text-center mb-8">
       <h1 class="text-h3 font-weight-bold mb-2">
         Explorar Eventos
@@ -119,10 +108,10 @@ onMounted(async () => {
       </p>
     </div>
 
-    <!-- Componente de filtros -->
+    
     <EventFilters @filter="handleFilter" />
 
-    <!-- Contador de resultados -->
+    
     <div class="d-flex justify-space-between align-center mb-4">
       <div class="text-body-1">
         <span v-if="!loading && events.length > 0">
@@ -138,7 +127,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <!-- Loading skeleton -->
+    
     <v-row v-if="loading">
       <v-col
         v-for="n in 12"
@@ -152,7 +141,7 @@ onMounted(async () => {
       </v-col>
     </v-row>
 
-    <!-- Grid de eventos -->
+    
     <v-row v-else-if="displayedEvents.length > 0">
       <v-col
         v-for="event in displayedEvents"
@@ -166,7 +155,7 @@ onMounted(async () => {
       </v-col>
     </v-row>
 
-    <!-- Mensaje si no hay eventos -->
+    
     <v-alert
       v-else
       type="info"
@@ -185,7 +174,7 @@ onMounted(async () => {
       </div>
     </v-alert>
 
-    <!-- Paginación -->
+    
     <div v-if="!loading && displayedEvents.length > 0" class="mt-8">
       <v-pagination
         :model-value="currentPage"
@@ -194,7 +183,7 @@ onMounted(async () => {
         @update:model-value="handlePageChange"
       />
 
-      <!-- Botones de navegación adicionales para móvil -->
+      
       <div class="d-flex justify-center ga-2 mt-4">
         <v-btn
           :disabled="!hasPreviousPage"
@@ -216,7 +205,7 @@ onMounted(async () => {
       </div>
     </div>
 
-    <!-- FAB para volver arriba (visible en scroll) -->
+    
     <v-fab
       icon="mdi-chevron-up"
       location="bottom end"

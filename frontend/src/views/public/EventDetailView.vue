@@ -1,18 +1,4 @@
-<!--
-  =============================================================================
-  EVENT DETAIL VIEW - Vista de detalle de evento
-  =============================================================================
-  Vista pública que muestra toda la información de un evento específico:
-  - Información completa del evento
-  - Imagen destacada
-  - Categoría, ubicación, fechas, capacidad
-  - Descripción detallada
-  - Organizador del evento
-  - Botón de registro/cancelación
-  - Información de registro del usuario
-  - Acciones de administración (editar/eliminar) si es el creador o admin
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -32,14 +18,14 @@ const eventsStore = useEventsStore()
 const registrationsStore = useRegistrationsStore()
 const uiStore = useUiStore()
 
-// Estado
+
 const loading = ref(true)
 const event = ref<Event | null>(null)
 const registering = ref(false)
 const showConfirmDialog = ref(false)
 const actionType = ref<'register' | 'cancel' | 'delete'>('register')
 
-// Computados
+
 const eventId = computed(() => Number(route.params.id))
 
 const eventDate = computed(() => {
@@ -99,7 +85,7 @@ const statusColor = computed(() => {
   }
 })
 
-// Métodos
+
 async function loadEvent() {
   loading.value = true
 
@@ -134,7 +120,7 @@ async function handleRegister() {
     await registrationsStore.registerForEvent(event.value.id)
     uiStore.showSuccess('¡Te has registrado exitosamente!')
 
-    // Recargar el evento para actualizar el contador
+    
     await loadEvent()
   } catch (error) {
     console.error('Error registering for event:', error)
@@ -154,7 +140,7 @@ async function handleCancelRegistration() {
     await registrationsStore.cancelRegistration(event.value.id)
     uiStore.showSuccess('Has cancelado tu registro')
 
-    // Recargar el evento
+    
     await loadEvent()
   } catch (error) {
     console.error('Error cancelling registration:', error)
@@ -188,13 +174,13 @@ function handleEdit() {
 function handleShare() {
   if (!event.value) return
 
-  // Copiar URL al portapapeles
+  
   const url = window.location.href
   navigator.clipboard.writeText(url)
   uiStore.showSuccess('Enlace copiado al portapapeles')
 }
 
-// Cargar evento al montar
+
 onMounted(async () => {
   await loadEvent()
 })
@@ -202,14 +188,14 @@ onMounted(async () => {
 
 <template>
   <div class="event-detail-view">
-    <!-- Loading -->
+    
     <v-container v-if="loading" class="py-8">
       <v-skeleton-loader type="article, article" />
     </v-container>
 
-    <!-- Contenido del evento -->
+    
     <div v-else-if="event">
-      <!-- Imagen destacada -->
+      
       <v-img
         :src="event.imageUrl || 'https://via.placeholder.com/1200x400?text=Event+Image'"
         height="400"
@@ -229,9 +215,9 @@ onMounted(async () => {
 
       <v-container class="py-8">
         <v-row>
-          <!-- Columna principal (info del evento) -->
+          
           <v-col cols="12" md="8">
-            <!-- Categoría y estado -->
+            
             <div class="d-flex ga-2 mb-4">
               <v-chip
                 v-if="event.category"
@@ -248,14 +234,14 @@ onMounted(async () => {
               </v-chip>
             </div>
 
-            <!-- Título -->
+            
             <h1 class="text-h3 font-weight-bold mb-4">
               {{ event.title }}
             </h1>
 
-            <!-- Info básica -->
+            
             <div class="event-info mb-6">
-              <!-- Fecha -->
+              
               <div class="info-item">
                 <v-icon color="primary" size="large" class="mr-3">
                   mdi-calendar
@@ -266,7 +252,7 @@ onMounted(async () => {
                 </div>
               </div>
 
-              <!-- Ubicación -->
+              
               <div v-if="event.location" class="info-item">
                 <v-icon color="primary" size="large" class="mr-3">
                   mdi-map-marker
@@ -279,7 +265,7 @@ onMounted(async () => {
                 </div>
               </div>
 
-              <!-- Capacidad -->
+              
               <div class="info-item">
                 <v-icon color="primary" size="large" class="mr-3">
                   mdi-account-group
@@ -302,7 +288,7 @@ onMounted(async () => {
                 </div>
               </div>
 
-              <!-- Organizador -->
+              
               <div v-if="event.organizer" class="info-item">
                 <v-icon color="primary" size="large" class="mr-3">
                   mdi-account-circle
@@ -316,7 +302,7 @@ onMounted(async () => {
               </div>
             </div>
 
-            <!-- Descripción -->
+            
             <v-divider class="my-6" />
 
             <div class="event-description">
@@ -329,11 +315,11 @@ onMounted(async () => {
             </div>
           </v-col>
 
-          <!-- Sidebar (acciones) -->
+          
           <v-col cols="12" md="4">
             <v-card class="sticky-card">
               <v-card-text>
-                <!-- Precio (si aplica) -->
+                
                 <div class="text-center mb-4">
                   <div class="text-h4 font-weight-bold text-primary">
                     Gratis
@@ -342,7 +328,7 @@ onMounted(async () => {
 
                 <v-divider class="mb-4" />
 
-                <!-- Estado de registro del usuario -->
+                
                 <v-alert
                   v-if="isUserRegistered"
                   type="success"
@@ -377,9 +363,9 @@ onMounted(async () => {
                   </div>
                 </v-alert>
 
-                <!-- Botones de acción -->
+                
                 <div class="d-flex flex-column ga-2">
-                  <!-- Registrarse -->
+                  
                   <v-btn
                     v-if="canRegister"
                     color="primary"
@@ -392,7 +378,7 @@ onMounted(async () => {
                     Registrarse
                   </v-btn>
 
-                  <!-- Cancelar registro -->
+                  
                   <v-btn
                     v-if="isUserRegistered"
                     color="error"
@@ -406,7 +392,7 @@ onMounted(async () => {
                     Cancelar Registro
                   </v-btn>
 
-                  <!-- Login para registrarse -->
+                  
                   <v-btn
                     v-if="!authStore.isAuthenticated && !isFull"
                     color="primary"
@@ -418,7 +404,7 @@ onMounted(async () => {
                     Iniciar Sesión
                   </v-btn>
 
-                  <!-- Compartir -->
+                  
                   <v-btn
                     variant="outlined"
                     size="large"
@@ -429,7 +415,7 @@ onMounted(async () => {
                     Compartir
                   </v-btn>
 
-                  <!-- Acciones de administración -->
+                  
                   <template v-if="canEdit">
                     <v-divider class="my-2" />
 
@@ -461,7 +447,7 @@ onMounted(async () => {
       </v-container>
     </div>
 
-    <!-- Diálogo de confirmación -->
+    
     <v-dialog v-model="showConfirmDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5">

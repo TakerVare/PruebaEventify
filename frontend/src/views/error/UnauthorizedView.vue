@@ -1,10 +1,4 @@
-<!--
-  =============================================================================
-  UNAUTHORIZED VIEW - Página 403 (Sin autorización)
-  =============================================================================
-  Vista mostrada cuando el usuario intenta acceder a una ruta sin permisos.
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
@@ -20,7 +14,7 @@ const authStore = useAuthStore()
   <v-container class="fill-height">
     <v-row align="center" justify="center">
       <v-col cols="12" sm="8" md="6" class="text-center">
-        <!-- Icono grande -->
+        
         <v-icon
           size="120"
           color="error"
@@ -29,12 +23,12 @@ const authStore = useAuthStore()
           mdi-lock-alert
         </v-icon>
 
-        <!-- Código de error -->
+        
         <h1 class="text-h2 font-weight-bold text-error mb-2">
           403
         </h1>
 
-        <!-- Mensaje -->
+        
         <h2 class="text-h5 mb-4">
           {{ t('errors.forbidden') }}
         </h2>
@@ -43,7 +37,7 @@ const authStore = useAuthStore()
           {{ t('errors.unauthorized') }}
         </p>
 
-        <!-- Información adicional -->
+        
         <v-alert
           v-if="authStore.isAuthenticated"
           type="info"
@@ -72,7 +66,7 @@ const authStore = useAuthStore()
           </p>
         </v-alert>
 
-        <!-- Acciones -->
+        
         <div class="d-flex flex-column flex-sm-row ga-3 justify-center">
           <v-btn
             v-if="!authStore.isAuthenticated"

@@ -6,9 +6,9 @@ using System.Text;
 
 namespace EventifyApi.Helpers;
 
-/// <summary>
-/// Helper para generar y validar tokens JWT
-/// </summary>
+
+
+
 public class JwtHelper
 {
     private readonly IConfiguration _configuration;
@@ -18,9 +18,9 @@ public class JwtHelper
         _configuration = configuration;
     }
 
-    /// <summary>
-    /// Genera un token JWT para el usuario especificado
-    /// </summary>
+    
+    
+    
     public string GenerateToken(User user)
     {
         var jwtKey = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key no configurada");
@@ -50,9 +50,9 @@ public class JwtHelper
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    /// <summary>
-    /// Obtiene la fecha de expiración del token
-    /// </summary>
+    
+    
+    
     public DateTime GetTokenExpiration()
     {
         var jwtExpirationMinutes = int.Parse(_configuration["Jwt:ExpirationInMinutes"] ?? "60");

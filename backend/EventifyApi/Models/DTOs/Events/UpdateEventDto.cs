@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Events;
 
-/// <summary>
-/// DTO para actualizar evento existente
-/// </summary>
+
+
+
 public class UpdateEventDto
 {
     public string Title { get; set; } = string.Empty;

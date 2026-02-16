@@ -1,14 +1,4 @@
-<!--
-  =============================================================================
-  PROFILE VIEW - Vista de perfil de usuario
-  =============================================================================
-  Vista privada donde el usuario puede:
-  - Ver su información personal
-  - Editar su perfil (nombre, email)
-  - Cambiar su contraseña
-  - Ver estadísticas de su actividad
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -27,13 +17,13 @@ const registrationsStore = useRegistrationsStore()
 const uiStore = useUiStore()
 const { profileSchema, passwordChangeSchema } = useValidation()
 
-// Estado
+
 const editingProfile = ref(false)
 const changingPassword = ref(false)
 const savingProfile = ref(false)
 const savingPassword = ref(false)
 
-// Formulario de perfil
+
 const {
   defineField: defineProfileField,
   handleSubmit: handleProfileSubmit,
@@ -52,7 +42,7 @@ const [firstName] = defineProfileField('firstName')
 const [lastName] = defineProfileField('lastName')
 const [email] = defineProfileField('email')
 
-// Formulario de cambio de contraseña
+
 const {
   defineField: definePasswordField,
   handleSubmit: handlePasswordSubmit,
@@ -66,7 +56,7 @@ const [currentPassword] = definePasswordField('currentPassword')
 const [newPassword] = definePasswordField('newPassword')
 const [confirmNewPassword] = definePasswordField('confirmNewPassword')
 
-// Computados
+
 const userRole = computed(() => {
   if (authStore.isAdmin) return 'Administrador'
   if (authStore.isOrganizer) return 'Organizador'
@@ -83,10 +73,10 @@ const userStats = computed(() => {
   }
 })
 
-// Métodos
+
 function toggleEditProfile() {
   if (editingProfile.value) {
-    // Cancelar edición - resetear valores
+    
     resetProfileForm({
       values: {
         firstName: authStore.user?.firstName || '',
@@ -102,15 +92,15 @@ const onProfileSubmit = handleProfileSubmit(async (values) => {
   savingProfile.value = true
 
   try {
-    // Aquí se haría la llamada al backend para actualizar el perfil
-    // Por ahora, solo mostramos un mensaje de éxito
-    await new Promise(resolve => setTimeout(resolve, 1000)) // Simular delay
+    
+    
+    await new Promise(resolve => setTimeout(resolve, 1000)) 
 
     uiStore.showSuccess('Perfil actualizado correctamente')
     editingProfile.value = false
 
-    // TODO: Actualizar el usuario en el store
-    // await authStore.updateProfile(values)
+    
+    
   } catch (error) {
     console.error('Error updating profile:', error)
     uiStore.showError('Error al actualizar el perfil')
@@ -123,15 +113,15 @@ const onPasswordSubmit = handlePasswordSubmit(async (values) => {
   savingPassword.value = true
 
   try {
-    // Aquí se haría la llamada al backend para cambiar la contraseña
-    await new Promise(resolve => setTimeout(resolve, 1000)) // Simular delay
+    
+    await new Promise(resolve => setTimeout(resolve, 1000)) 
 
     uiStore.showSuccess('Contraseña cambiada correctamente')
     changingPassword.value = false
     resetPasswordForm()
 
-    // TODO: Implementar cambio de contraseña en el backend
-    // await authService.changePassword(values)
+    
+    
   } catch (error) {
     console.error('Error changing password:', error)
     uiStore.showError('Error al cambiar la contraseña')
@@ -158,11 +148,11 @@ function cancelPasswordChange() {
     </div>
 
     <v-row>
-      <!-- Información del usuario -->
+      
       <v-col cols="12" md="4">
         <v-card>
           <v-card-text class="text-center pa-6">
-            <!-- Avatar -->
+            
             <v-avatar
               size="120"
               color="primary"
@@ -173,12 +163,12 @@ function cancelPasswordChange() {
               </span>
             </v-avatar>
 
-            <!-- Nombre -->
+            
             <h2 class="text-h5 font-weight-bold mb-2">
               {{ authStore.fullName }}
             </h2>
 
-            <!-- Rol -->
+            
             <v-chip
               :color="authStore.isAdmin ? 'error' : authStore.isOrganizer ? 'primary' : 'secondary'"
               class="mb-4"
@@ -187,7 +177,7 @@ function cancelPasswordChange() {
               {{ userRole }}
             </v-chip>
 
-            <!-- Email -->
+            
             <div class="text-body-2 text-medium-emphasis mb-4">
               <v-icon size="small" class="mr-1">mdi-email</v-icon>
               {{ authStore.user?.email }}
@@ -195,7 +185,7 @@ function cancelPasswordChange() {
 
             <v-divider class="my-4" />
 
-            <!-- Estadísticas -->
+            
             <div class="user-stats">
               <div class="stat-item">
                 <div class="text-h4 font-weight-bold text-primary">
@@ -227,7 +217,7 @@ function cancelPasswordChange() {
 
             <v-divider class="my-4" />
 
-            <!-- Acciones rápidas -->
+            
             <v-btn
               color="primary"
               variant="outlined"
@@ -241,9 +231,9 @@ function cancelPasswordChange() {
         </v-card>
       </v-col>
 
-      <!-- Formularios de edición -->
+      
       <v-col cols="12" md="8">
-        <!-- Editar perfil -->
+        
         <v-card class="mb-4">
           <v-card-title class="d-flex justify-space-between align-center">
             <span>
@@ -322,7 +312,7 @@ function cancelPasswordChange() {
           </v-card-text>
         </v-card>
 
-        <!-- Cambiar contraseña -->
+        
         <v-card>
           <v-card-title>
             <v-icon start>mdi-lock-reset</v-icon>

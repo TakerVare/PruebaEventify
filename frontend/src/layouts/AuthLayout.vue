@@ -1,19 +1,4 @@
-<!--
-  =============================================================================
-  AUTH LAYOUT - Layout para autenticación
-  =============================================================================
-  Layout minimalista para páginas de autenticación:
-  - Login
-  - Registro
-  - Recuperación de contraseña
 
-  Características:
-  - Sin header ni footer
-  - Fondo con gradiente
-  - Card centrado
-  - Selector de idioma y tema
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { useUiStore } from '@/stores/ui'
@@ -23,13 +8,9 @@ const uiStore = useUiStore()
 
 <template>
   <div class="auth-layout">
-    <!--
-      =========================================================================
-      CONTENIDO PRINCIPAL
-      =========================================================================
-    -->
+    
     <v-main>
-      <!-- Fondo con gradiente -->
+      
       <v-container
         fluid
         class="auth-container fill-height"
@@ -46,9 +27,9 @@ const uiStore = useUiStore()
             lg="5"
             xl="4"
           >
-            <!-- Controles de tema e idioma -->
+            
             <div class="d-flex justify-end mb-4 ga-2">
-              <!-- Selector de idioma -->
+              
               <v-btn
                 icon
                 variant="text"
@@ -62,7 +43,7 @@ const uiStore = useUiStore()
                 </v-tooltip>
               </v-btn>
 
-              <!-- Selector de tema -->
+              
               <v-btn
                 icon
                 variant="text"
@@ -77,13 +58,13 @@ const uiStore = useUiStore()
               </v-btn>
             </div>
 
-            <!-- Card principal con el contenido -->
+            
             <v-card
               class="auth-card"
               elevation="8"
               rounded="lg"
             >
-              <!-- Logo de la aplicación -->
+              
               <v-card-title class="text-center pt-8 pb-4">
                 <v-avatar
                   color="primary"
@@ -101,7 +82,7 @@ const uiStore = useUiStore()
               </v-card-title>
 
               <v-card-text class="px-8 py-6">
-                <!-- Contenido de la vista (Login o Register) -->
+                
                 <router-view v-slot="{ Component, route }">
                   <transition name="fade" mode="out-in">
                     <component :is="Component" :key="route.path" />
@@ -110,7 +91,7 @@ const uiStore = useUiStore()
               </v-card-text>
             </v-card>
 
-            <!-- Footer mínimo -->
+            
             <div class="text-center mt-4 text-caption text-medium-emphasis">
               <p>&copy; {{ new Date().getFullYear() }} Eventify. Todos los derechos reservados.</p>
               <p>
@@ -129,9 +110,7 @@ const uiStore = useUiStore()
 </template>
 
 <style scoped lang="scss">
-/**
- * Contenedor de autenticación con fondo
- */
+
 .auth-container {
   min-height: 100vh;
   background: linear-gradient(
@@ -140,7 +119,7 @@ const uiStore = useUiStore()
     rgb(var(--v-theme-secondary)) 100%
   );
 
-  // En tema oscuro, ajustar opacidad
+  
   :deep(.v-theme--dark) & {
     background: linear-gradient(
       135deg,
@@ -150,17 +129,13 @@ const uiStore = useUiStore()
   }
 }
 
-/**
- * Card de autenticación
- */
+
 .auth-card {
   backdrop-filter: blur(10px);
   background: rgba(var(--v-theme-surface), 0.95) !important;
 }
 
-/**
- * Transición fade
- */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;

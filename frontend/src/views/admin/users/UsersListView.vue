@@ -1,14 +1,4 @@
-<!--
-  =============================================================================
-  ADMIN USERS LIST VIEW - Lista de usuarios (Administración)
-  =============================================================================
-  Vista de administración (solo Admin) que muestra todos los usuarios con:
-  - Tabla de datos con paginación
-  - Filtros por rol y estado
-  - Acciones de administración (cambiar rol, activar/desactivar)
-  - Estadísticas por rol
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -22,7 +12,7 @@ const { t, d } = useI18n()
 const usersStore = useUsersStore()
 const uiStore = useUiStore()
 
-// Estado
+
 const loading = ref(true)
 const search = ref('')
 const roleFilter = ref<UserRole | 'all'>('all')
@@ -32,7 +22,7 @@ const userToEdit = ref<User | null>(null)
 const newRole = ref<UserRole>('User')
 const changingRole = ref(false)
 
-// Paginación
+
 const {
   currentPage,
   pageSize,
@@ -43,11 +33,11 @@ const {
   updateTotalCount
 } = usePagination(10)
 
-// Computados
+
 const filteredUsers = computed(() => {
   let filtered = usersStore.users
 
-  // Filtrar por búsqueda
+  
   if (search.value) {
     const searchLower = search.value.toLowerCase()
     filtered = filtered.filter(
@@ -58,12 +48,12 @@ const filteredUsers = computed(() => {
     )
   }
 
-  // Filtrar por rol
+  
   if (roleFilter.value !== 'all') {
     filtered = filtered.filter(u => u.role === roleFilter.value)
   }
 
-  // Filtrar por estado
+  
   if (statusFilter.value === 'active') {
     filtered = filtered.filter(u => u.isActive)
   } else if (statusFilter.value === 'inactive') {
@@ -99,7 +89,7 @@ const roleChangeOptions = [
   { value: 'Admin', title: 'Administrador', icon: 'mdi-shield-account' }
 ]
 
-// Headers de la tabla
+
 const headers = [
   { title: 'Usuario', key: 'name', sortable: true },
   { title: 'Email', key: 'email', sortable: true },
@@ -109,7 +99,7 @@ const headers = [
   { title: 'Acciones', key: 'actions', sortable: false, align: 'end' }
 ]
 
-// Métodos
+
 function getRoleColor(role: UserRole): string {
   switch (role) {
     case 'Admin':
@@ -190,7 +180,7 @@ async function loadUsers() {
   }
 }
 
-// Cargar usuarios al montar
+
 onMounted(async () => {
   await loadUsers()
 })
@@ -198,7 +188,7 @@ onMounted(async () => {
 
 <template>
   <div class="admin-users-list-view">
-    <!-- Encabezado -->
+    
     <div class="mb-6">
       <h1 class="text-h4 font-weight-bold mb-2">
         Gestión de Usuarios
@@ -208,7 +198,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <!-- Estadísticas rápidas -->
+    
     <v-row class="mb-6">
       <v-col cols="12" sm="4">
         <v-card color="error" variant="tonal">
@@ -247,7 +237,7 @@ onMounted(async () => {
       </v-col>
     </v-row>
 
-    <!-- Filtros -->
+    
     <v-card class="mb-6">
       <v-card-text>
         <v-row>
@@ -297,7 +287,7 @@ onMounted(async () => {
       </v-card-text>
     </v-card>
 
-    <!-- Tabla de usuarios -->
+    
     <v-card>
       <v-data-table
         :headers="headers"
@@ -307,7 +297,7 @@ onMounted(async () => {
         hide-default-footer
         class="elevation-1"
       >
-        <!-- Usuario -->
+        
         <template #item.name="{ item }">
           <div class="d-flex align-center">
             <v-avatar
@@ -330,7 +320,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        <!-- Rol -->
+        
         <template #item.role="{ item }">
           <v-chip
             :color="getRoleColor(item.role)"
@@ -341,12 +331,12 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        <!-- Fecha registro -->
+        
         <template #item.createdAt="{ item }">
           {{ formatDate(item.createdAt) }}
         </template>
 
-        <!-- Estado -->
+        
         <template #item.isActive="{ item }">
           <v-chip
             :color="item.isActive ? 'success' : 'error'"
@@ -357,7 +347,7 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        <!-- Acciones -->
+        
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
             <v-tooltip text="Cambiar rol">
@@ -389,7 +379,7 @@ onMounted(async () => {
         </template>
       </v-data-table>
 
-      <!-- Paginación -->
+      
       <v-divider />
       <div class="pa-4">
         <v-pagination
@@ -401,7 +391,7 @@ onMounted(async () => {
       </div>
     </v-card>
 
-    <!-- Diálogo de cambio de rol -->
+    
     <v-dialog v-model="showRoleDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5">
@@ -465,6 +455,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .admin-users-list-view {
-  // Estilos específicos si son necesarios
+  
 }
 </style>

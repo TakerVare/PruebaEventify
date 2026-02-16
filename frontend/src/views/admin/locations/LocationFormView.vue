@@ -1,11 +1,4 @@
-<!--
-  =============================================================================
-  ADMIN LOCATION FORM VIEW - Formulario de creación/edición de ubicación
-  =============================================================================
-  Vista de administración para crear o editar ubicaciones.
-  Utiliza el componente LocationForm y maneja la lógica de guardado.
-  =============================================================================
--->
+
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -22,12 +15,12 @@ const { t } = useI18n()
 const locationsStore = useLocationsStore()
 const uiStore = useUiStore()
 
-// Estado
+
 const loading = ref(false)
 const loadingLocation = ref(false)
 const location = ref<Location | null>(null)
 
-// Computados
+
 const isEditMode = computed(() => route.params.id !== 'new')
 const locationId = computed(() => Number(route.params.id))
 
@@ -41,7 +34,7 @@ const breadcrumbs = computed(() => [
   { title: pageTitle.value }
 ])
 
-// Métodos
+
 async function loadLocation() {
   if (!isEditMode.value) return
 
@@ -69,16 +62,16 @@ async function handleSubmit(data: CreateLocationDto | UpdateLocationDto) {
 
   try {
     if (isEditMode.value) {
-      // Actualizar ubicación existente
+      
       await locationsStore.updateLocation(locationId.value, data as UpdateLocationDto)
       uiStore.showSuccess('Ubicación actualizada correctamente')
     } else {
-      // Crear nueva ubicación
+      
       await locationsStore.createLocation(data as CreateLocationDto)
       uiStore.showSuccess('Ubicación creada correctamente')
     }
 
-    // Redirigir a la lista de ubicaciones
+    
     router.push('/admin/locations')
   } catch (error) {
     console.error('Error saving location:', error)
@@ -92,10 +85,10 @@ function handleCancel() {
   router.push('/admin/locations')
 }
 
-// Cargar ubicación si estamos en modo edición
+
 onMounted(async () => {
   if (isEditMode.value) {
-    // Asegurarse de que las ubicaciones estén cargadas
+    
     if (locationsStore.locations.length === 0) {
       await locationsStore.fetchLocations({ page: 1, pageSize: 100 })
     }
@@ -106,14 +99,14 @@ onMounted(async () => {
 
 <template>
   <div class="admin-location-form-view">
-    <!-- Breadcrumbs -->
+    
     <v-breadcrumbs :items="breadcrumbs" class="px-0 pb-4">
       <template #divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
 
-    <!-- Encabezado -->
+    
     <div class="mb-6">
       <h1 class="text-h4 font-weight-bold mb-2">
         {{ pageTitle }}
@@ -123,7 +116,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    <!-- Loading de la ubicación -->
+    
     <v-card v-if="loadingLocation" class="pa-8">
       <div class="text-center">
         <v-progress-circular
@@ -137,7 +130,7 @@ onMounted(async () => {
       </div>
     </v-card>
 
-    <!-- Formulario -->
+    
     <v-card v-else>
       <v-card-text class="pa-6">
         <LocationForm
@@ -149,7 +142,7 @@ onMounted(async () => {
       </v-card-text>
     </v-card>
 
-    <!-- Ayuda -->
+    
     <v-alert
       type="info"
       variant="tonal"
@@ -173,6 +166,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .admin-location-form-view {
-  // Estilos específicos si son necesarios
+  
 }
 </style>

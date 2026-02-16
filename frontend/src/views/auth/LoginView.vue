@@ -1,16 +1,4 @@
-<!--
-  =============================================================================
-  LOGIN VIEW - Vista de inicio de sesión
-  =============================================================================
-  Formulario de login con validación usando VeeValidate y Yup.
 
-  Características:
-  - Validación en tiempo real
-  - Manejo de errores
-  - Recuerda la URL de origen para redirigir después del login
-  - Enlace a registro
-  =============================================================================
--->
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -27,23 +15,23 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const { loginSchema } = useValidation()
 
-// Verificar si estamos en modo desarrollo
+
 const isDev = import.meta.env.DEV
 
-// Estado del formulario
+
 const loading = ref(false)
 const showPassword = ref(false)
 
-// Configurar VeeValidate con el esquema de validación
+
 const { defineField, handleSubmit, errors } = useForm({
   validationSchema: loginSchema
 })
 
-// Definir campos del formulario
+
 const [email, emailAttrs] = defineField('email')
 const [password, passwordAttrs] = defineField('password')
 
-// Manejar envío del formulario
+
 const onSubmit = handleSubmit(async (values) => {
   loading.value = true
 
@@ -56,10 +44,10 @@ const onSubmit = handleSubmit(async (values) => {
     const success = await authStore.login(credentials)
 
     if (success) {
-      // Obtener URL de redirección del query param o usar default
+      
       const redirect = route.query.redirect as string || '/'
 
-      // Si el usuario es admin u organizador, redirigir al dashboard
+      
       if (authStore.isAdmin || authStore.isOrganizer) {
         router.push('/admin/dashboard')
       } else {
@@ -74,7 +62,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 <template>
   <div>
-    <!-- Título -->
+    
     <h1 class="text-h5 font-weight-bold text-center mb-2">
       {{ t('auth.login.title') }}
     </h1>
@@ -82,9 +70,9 @@ const onSubmit = handleSubmit(async (values) => {
       {{ t('auth.login.subtitle') }}
     </p>
 
-    <!-- Formulario -->
+    
     <v-form @submit.prevent="onSubmit">
-      <!-- Campo de email -->
+      
       <v-text-field
         v-model="email"
         v-bind="emailAttrs"
@@ -96,7 +84,7 @@ const onSubmit = handleSubmit(async (values) => {
         :disabled="loading"
       />
 
-      <!-- Campo de contraseña -->
+      
       <v-text-field
         v-model="password"
         v-bind="passwordAttrs"
@@ -110,7 +98,7 @@ const onSubmit = handleSubmit(async (values) => {
         :disabled="loading"
       />
 
-      <!-- Enlace de recuperar contraseña -->
+      
       <div class="d-flex justify-end mb-4">
         <v-btn
           variant="text"
@@ -123,7 +111,7 @@ const onSubmit = handleSubmit(async (values) => {
         </v-btn>
       </div>
 
-      <!-- Botón de envío -->
+      
       <v-btn
         type="submit"
         color="primary"
@@ -136,10 +124,10 @@ const onSubmit = handleSubmit(async (values) => {
         {{ t('auth.login.submit') }}
       </v-btn>
 
-      <!-- Divider -->
+      
       <v-divider class="my-4" />
 
-      <!-- Enlace a registro -->
+      
       <div class="text-center">
         <p class="text-body-2 text-medium-emphasis mb-2">
           {{ t('auth.login.noAccount') }}
@@ -156,7 +144,7 @@ const onSubmit = handleSubmit(async (values) => {
       </div>
     </v-form>
 
-    <!-- Usuario demo (solo en desarrollo) -->
+    
     <v-alert
       v-if="isDev"
       type="info"
@@ -177,5 +165,5 @@ const onSubmit = handleSubmit(async (values) => {
 </template>
 
 <style scoped lang="scss">
-// Estilos adicionales si son necesarios
+
 </style>

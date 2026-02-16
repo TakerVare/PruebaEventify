@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventifyApi.Validators.Auth;
 
-/// <summary>
-/// Validador para ChangePasswordDto
-/// </summary>
+
+
+
 public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
 {
     public ChangePasswordDtoValidator()

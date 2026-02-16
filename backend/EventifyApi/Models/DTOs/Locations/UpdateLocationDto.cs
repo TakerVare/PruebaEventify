@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Locations;
 
-/// <summary>
-/// DTO para actualizar ubicación existente
-/// </summary>
+
+
+
 public class UpdateLocationDto
 {
     public string Name { get; set; } = string.Empty;
