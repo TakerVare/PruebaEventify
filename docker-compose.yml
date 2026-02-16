@@ -1,0 +1,129 @@
+# =============================================================================
+# Docker Compose - Eventify App
+# =============================================================================
+# Orquesta los tres servicios principales:
+# - frontend: Aplicación Vue 3 + Vuetify 3
+# - backend: API ASP.NET Core 8
+# - db: SQL Server 2022
+# =============================================================================
+
+version: '3.8'
+
+services:
+  # ===========================================================================
+  # BASE DE DATOS - SQL Server 2022
+  # ===========================================================================
+  # Contenedor con SQL Server para persistencia de datos.
+  # Los datos se persisten en un volumen Docker para no perderlos al reiniciar.
+  # ===========================================================================
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: eventify-db
+    environment:
+      # Aceptar términos de licencia de SQL Server
+      ACCEPT_EULA: "Y"
+      # Contraseña del usuario SA (System Administrator)
+      # IMPORTANTE: En producción usar secretos de Docker
+      MSSQL_SA_PASSWORD: "EventifyPass123!"
+      # Configurar SQL Server en modo Developer (gratuito para desarrollo)
+      MSSQL_PID: "Developer"
+    ports:
+      # Puerto 1433: Puerto estándar de SQL Server
+      # Mapeamos al mismo puerto del host para facilitar conexiones externas
+      - "1433:1433"
+    volumes:
+      # Volumen para persistir los datos de la base de datos
+      # Evita pérdida de datos cuando el contenedor se reinicia
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - eventify-network
+    # Healthcheck para verificar que SQL Server está listo
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "EventifyPass123!" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ===========================================================================
+  # BACKEND - ASP.NET Core 8 Web API
+  # ===========================================================================
+  # API RESTful que maneja toda la lógica de negocio.
+  # Se conecta a SQL Server y expone endpoints para el frontend.
+  # ===========================================================================
+  backend:
+    build:
+      # Contexto de construcción: carpeta backend
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: eventify-backend
+    environment:
+      # Entorno de ejecución (Development, Staging, Production)
+      ASPNETCORE_ENVIRONMENT: "Development"
+      # URLs en las que escucha la API
+      ASPNETCORE_URLS: "http://+:5000"
+      # Cadena de conexión a SQL Server
+      # Usamos el nombre del servicio 'db' como hostname (Docker DNS)
+      ConnectionStrings__DefaultConnection: "Server=db;Database=EventifyDb;User Id=sa;Password=EventifyPass123!;TrustServerCertificate=True;MultipleActiveResultSets=true"
+      # Configuración JWT (en producción usar secretos)
+      Jwt__Key: "EventifySecretKey2024SuperSecure256BitsMinimum!"
+      Jwt__Issuer: "EventifyApi"
+      Jwt__Audience: "EventifyApp"
+      Jwt__ExpirationInMinutes: "60"
+    ports:
+      # Puerto 5000: Puerto de la API
+      - "5000:5000"
+    depends_on:
+      # Esperar a que SQL Server esté saludable antes de iniciar
+      db:
+        condition: service_healthy
+    networks:
+      - eventify-network
+    # Reiniciar automáticamente si el contenedor falla
+    restart: unless-stopped
+
+  # ===========================================================================
+  # FRONTEND - Vue 3 + Vuetify 3
+  # ===========================================================================
+  # Aplicación SPA que consume la API del backend.
+  # Compilada con Vite y servida con nginx.
+  # ===========================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      # Build args para variables de entorno en tiempo de compilación
+      args:
+        # IMPORTANTE: La URL de la API debe ser accesible desde el navegador del cliente
+        # Como Docker Compose expone el backend en localhost:5000, usamos esa URL
+        VITE_API_URL: "http://localhost:5000/api"
+    container_name: eventify-frontend
+    ports:
+      # Puerto 8080: Puerto mapeado para nginx (puerto 80 interno)
+      - "8080:80"
+    depends_on:
+      # Esperar a que el backend esté disponible
+      - backend
+    networks:
+      - eventify-network
+    restart: unless-stopped
+
+# =============================================================================
+# REDES
+# =============================================================================
+# Red bridge personalizada para comunicación entre contenedores.
+# Los contenedores pueden referenciarse por nombre de servicio.
+# =============================================================================
+networks:
+  eventify-network:
+    driver: bridge
+
+# =============================================================================
+# VOLÚMENES
+# =============================================================================
+# Volúmenes persistentes para datos que deben sobrevivir reinicios.
+# =============================================================================
+volumes:
+  # Volumen para datos de SQL Server
+  sqlserver_data:
+    driver: local

@@ -1,0 +1,161 @@
+# =============================================================================
+# .gitignore - Eventify App
+# =============================================================================
+# Archivos y carpetas que Git debe ignorar
+# =============================================================================
+
+# =============================================================================
+# DEPENDENCIAS
+# =============================================================================
+
+# Node.js - Dependencias del frontend
+node_modules/
+.npm
+
+# .NET - Dependencias del backend
+**/bin/
+**/obj/
+**/packages/
+
+# =============================================================================
+# ARCHIVOS DE COMPILACIÓN Y SALIDA
+# =============================================================================
+
+# Frontend - Build de producción
+frontend/dist/
+frontend/.vite/
+
+# Backend - Publicación
+**/publish/
+**/out/
+
+# =============================================================================
+# ARCHIVOS DE ENTORNO Y CONFIGURACIÓN LOCAL
+# =============================================================================
+
+# Variables de entorno (pueden contener secretos)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Archivos de configuración local de .NET
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# =============================================================================
+# IDE Y EDITORES
+# =============================================================================
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains (Rider, WebStorm)
+.idea/
+*.iml
+
+# =============================================================================
+# SISTEMA OPERATIVO
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# =============================================================================
+# LOGS Y ARCHIVOS TEMPORALES
+# =============================================================================
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Archivos temporales
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Caché
+.cache/
+*.cache
+
+# =============================================================================
+# TESTING Y COBERTURA
+# =============================================================================
+
+# Jest (Frontend)
+coverage/
+.nyc_output/
+
+# xUnit / NUnit (.NET)
+TestResults/
+*.trx
+
+# =============================================================================
+# DOCKER
+# =============================================================================
+
+# No ignorar docker-compose.yml ni Dockerfiles
+# Pero sí ignorar posibles overrides locales
+docker-compose.override.yml
+docker-compose.local.yml
+
+# =============================================================================
+# CERTIFICADOS Y CLAVES
+# =============================================================================
+
+# Certificados SSL
+*.pem
+*.key
+*.crt
+*.pfx
+
+# =============================================================================
+# ARCHIVOS ESPECÍFICOS DEL PROYECTO
+# =============================================================================
+
+# Uploads de usuarios (si se implementan)
+uploads/
+wwwroot/uploads/
+
+# Backups de base de datos
+*.bak
+*.sql
+
+# =============================================================================
+# MISCELÁNEA
+# =============================================================================
+
+# Archivos de lock (mantener package-lock.json)
+yarn.lock
+pnpm-lock.yaml
+
+# Archivos de análisis
+*.tsbuildinfo

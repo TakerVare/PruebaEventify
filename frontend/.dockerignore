@@ -1,0 +1,60 @@
+# =============================================================================
+# .dockerignore - Eventify Frontend
+# =============================================================================
+# Archivos y carpetas a ignorar al construir la imagen Docker
+# =============================================================================
+
+# Carpetas de dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Carpetas de compilación
+dist/
+dist-ssr/
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Testing
+coverage/
+.nyc_output/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+
+# Documentación
+README.md
+*.md
+
+# Archivos de sistema operativo
+Thumbs.db
+.DS_Store

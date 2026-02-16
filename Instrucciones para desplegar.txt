@@ -1,0 +1,130 @@
+ 🚀 Guía rápida de despliegue y prueba
+
+  1. Iniciar la aplicación
+
+  Abre una terminal y ejecuta:
+
+  cd "C:\Users\taker\Documents\Desarrollo\2DAW\Dessarrolo web en entorno cliente\AA 2ª Evaluación - Aplicación web\eventify-app"
+
+  docker-compose up -d
+
+  Esto iniciará los 3 contenedores (base de datos, backend y frontend).
+
+  2. Verificar que todo está funcionando
+
+  docker-compose ps
+
+  Deberías ver algo como:
+  NAME                STATUS              PORTS
+  eventify-backend    Up X seconds        0.0.0.0:5000->5000/tcp
+  eventify-db         Up X seconds        0.0.0.0:1433->1433/tcp
+  eventify-frontend   Up X seconds        0.0.0.0:8080->80/tcp
+
+  3. Acceder a la aplicación
+
+  Abre tu navegador y ve a:
+
+  http://localhost:8080
+
+  4. Iniciar sesión con usuarios de prueba
+
+  Puedes probar con cualquiera de estos usuarios:
+  ┌─────────────┬──────────────────────────┬────────────┬────────────────────────┐
+  │   Usuario   │          Email           │ Contraseña │          Rol           │
+  ├─────────────┼──────────────────────────┼────────────┼────────────────────────┤
+  │ Admin       │ admin@eventify.com       │ Admin123!  │ Administrador          │
+  ├─────────────┼──────────────────────────┼────────────┼────────────────────────┤
+  │ Organizador │ organizador@eventify.com │ Org123!    │ Organizador de eventos │
+  ├─────────────┼──────────────────────────┼────────────┼────────────────────────┤
+  │ Usuario     │ usuario@eventify.com     │ User123!   │ Usuario normal         │
+  └─────────────┴──────────────────────────┴────────────┴────────────────────────┘
+  5. Ver logs (si quieres ver qué está pasando)
+
+  # Ver logs del backend
+  docker logs eventify-backend
+
+  # Ver logs del frontend
+  docker logs eventify-frontend
+
+  # Ver logs en tiempo real
+  docker logs -f eventify-backend
+
+  6. Detener la aplicación
+
+  Cuando termines de probar:
+
+  docker-compose down
+
+  7. Si algo no funciona
+
+  Si los puertos están ocupados:
+  # Verificar qué contenedores están corriendo
+  docker ps -a
+
+  # Detener contenedores antiguos
+  docker stop eventify-backend eventify-frontend eventify-db
+  docker rm eventify-backend eventify-frontend eventify-db
+
+  # Volver a iniciar
+  docker-compose up -d
+
+  Si necesitas reconstruir las imágenes:
+  docker-compose build
+  docker-compose up -d
+
+  🎯 Eso es todo
+
+  Una vez ejecutes docker-compose up -d, espera unos 10-15 segundos para que todo inicie completamente y luego accede a http://localhost:8080. La aplicación estará lista para usar.
+
+
+
+
+
+🚀 Para verificar la comunicación completa:
+
+  1. Iniciar todos los servicios:
+  docker-compose up -d
+  2. Abrir en el navegador:
+  http://localhost:8080
+  3. Iniciar sesión con un usuario de prueba:
+    - Email: admin@eventify.com
+    - Password: Admin123!
+  4. El frontend debería poder:
+    - Cargar categorías
+    - Hacer login
+    - Ver eventos
+    - Crear eventos (como organizador/admin)
+    - Registrarse en eventos (como usuario)
+
+  Todo está configurado correctamente para que frontend y backend se comuniquen en el entorno de producción Docker. 🎉
+
+
+ ✨ Resultado final:
+
+  ✅ Frontend (localhost:8080) ↔ Backend (localhost:5000) comunicación OK
+
+  - CORS configurado correctamente para ambos puertos (8080 y 5173)
+  - Variables de entorno correctas en docker-compose
+  - Red Docker funcionando correctamente
+  - Sin redirecciones HTTPS que causen problemas
+
+  ---
+  🚀 Para verificar la comunicación completa:
+
+  1. Iniciar todos los servicios:
+  docker-compose up -d
+  2. Abrir en el navegador:
+  http://localhost:8080
+  3. Iniciar sesión con un usuario de prueba:
+    - Email: admin@eventify.com
+    - Password: Admin123!
+  4. El frontend debería poder:
+    - Cargar categorías
+    - Hacer login
+    - Ver eventos
+    - Crear eventos (como organizador/admin)
+    - Registrarse en eventos (como usuario)
+
+  Todo está configurado correctamente para que frontend y backend se comuniquen en el entorno de producción Docker. 🎉
+
+

@@ -1,0 +1,112 @@
+/**
+ * =============================================================================
+ * VUETIFY-SETTINGS.SCSS - Configuración de estilos de Vuetify
+ * =============================================================================
+ * Este archivo permite sobrescribir variables SASS de Vuetify antes de que
+ * se compile. Se referencia en vite.config.ts en la sección de Vuetify plugin.
+ *
+ * Documentación: https://vuetifyjs.com/en/features/sass-variables/
+ * =============================================================================
+ */
+
+// Importar variables personalizadas
+@use './variables' as *;
+
+// =============================================================================
+// CONFIGURACIÓN DE FUENTES
+// =============================================================================
+
+// Familia de fuentes principal
+$body-font-family: $font-family-base;
+$heading-font-family: $font-family-heading;
+
+// =============================================================================
+// CONFIGURACIÓN DE BORDES
+// =============================================================================
+
+// Radio de bordes global para componentes
+$border-radius-root: $border-radius-md;
+
+// =============================================================================
+// CONFIGURACIÓN DE BOTONES
+// =============================================================================
+
+// Altura de botones por tamaño
+$btn-sizes: (
+  'x-small': 24px,
+  'small': 32px,
+  'default': 40px,
+  'large': 48px,
+  'x-large': 56px
+);
+
+// Radio de bordes de botones
+$btn-border-radius: $border-radius-md;
+
+// =============================================================================
+// CONFIGURACIÓN DE CARDS
+// =============================================================================
+
+// Radio de bordes de cards
+$card-border-radius: $border-radius-lg;
+
+// Padding de cards
+$card-padding: $spacing-lg;
+
+// =============================================================================
+// CONFIGURACIÓN DE INPUTS
+// =============================================================================
+
+// Radio de bordes de inputs
+$text-field-border-radius: $border-radius-sm;
+
+// =============================================================================
+// CONFIGURACIÓN DE CHIPS
+// =============================================================================
+
+// Radio de bordes de chips
+$chip-border-radius: $border-radius-md;
+
+// =============================================================================
+// CONFIGURACIÓN DE DIALOGS
+// =============================================================================
+
+// Radio de bordes de diálogos
+$dialog-border-radius: $border-radius-lg;
+
+// =============================================================================
+// CONFIGURACIÓN DE LISTAS
+// =============================================================================
+
+// Radio de bordes de list items
+$list-item-border-radius: $border-radius-sm;
+
+// =============================================================================
+// CONFIGURACIÓN DE NAVEGACIÓN
+// =============================================================================
+
+// Ancho del navigation drawer
+$navigation-drawer-width: 256px;
+$navigation-drawer-mini-width: 64px;
+
+// =============================================================================
+// CONFIGURACIÓN DE TABLAS
+// =============================================================================
+
+// Altura de filas de tabla
+$table-row-height: 48px;
+
+// =============================================================================
+// CONFIGURACIÓN DE TOOLTIPS
+// =============================================================================
+
+// Radio de bordes de tooltips
+$tooltip-border-radius: $border-radius-sm;
+
+// =============================================================================
+// CONFIGURACIÓN DE TRANSICIONES
+// =============================================================================
+
+// Duración de transiciones
+$primary-transition: $transition-base cubic-bezier(0.4, 0, 0.2, 1);
+$secondary-transition: $transition-fast cubic-bezier(0.4, 0, 0.2, 1);
