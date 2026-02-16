@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventifyApi.Services.Events;
 
-
-
-
+/// <summary>
+/// Servicio de eventos con lógica compleja de permisos y filtros
+/// </summary>
 public class EventService : IEventService
 {
     private readonly ApplicationDbContext _context;
@@ -33,16 +33,16 @@ public class EventService : IEventService
             .Include(e => e.Category)
             .AsQueryable();
 
-        
+        // Aplicar filtros
         query = query.ApplyEventFilters(search, status, categoryId, locationId, startDate, endDate);
 
-        
+        // Aplicar ordenación
         query = query.ApplyEventSort(sortBy, sortDescending);
 
-        
+        // Aplicar paginación
         var paginatedResult = await PaginationHelper.CreatePaginatedResponseAsync(query, page, pageSize);
 
-        
+        // Mapear a DTOs
         var dtos = _mapper.Map<List<EventSummaryDto>>(paginatedResult.Items);
 
         return new PaginatedResponse<EventSummaryDto>(dtos, page, pageSize, paginatedResult.TotalCount);
@@ -78,14 +78,14 @@ public class EventService : IEventService
 
     public async Task<EventDto> CreateAsync(CreateEventDto createDto, int organizerId)
     {
-        
+        // Verificar que la ubicación existe
         var locationExists = await _context.Locations.AnyAsync(l => l.Id == createDto.LocationId);
         if (!locationExists)
         {
             throw new KeyNotFoundException($"Ubicación con ID {createDto.LocationId} no encontrada");
         }
 
-        
+        // Verificar que la categoría existe
         var categoryExists = await _context.Categories.AnyAsync(c => c.Id == createDto.CategoryId);
         if (!categoryExists)
         {
@@ -111,34 +111,34 @@ public class EventService : IEventService
             throw new KeyNotFoundException($"Evento con ID {id} no encontrado");
         }
 
-        
+        // Verificar permisos: solo el organizador o Admin pueden actualizar
         if (eventEntity.OrganizerId != currentUserId && userRole != "Admin")
         {
             throw new UnauthorizedAccessException("No tienes permisos para actualizar este evento");
         }
 
-        
+        // Verificar que la ubicación existe
         var locationExists = await _context.Locations.AnyAsync(l => l.Id == updateDto.LocationId);
         if (!locationExists)
         {
             throw new KeyNotFoundException($"Ubicación con ID {updateDto.LocationId} no encontrada");
         }
 
-        
+        // Verificar que la categoría existe
         var categoryExists = await _context.Categories.AnyAsync(c => c.Id == updateDto.CategoryId);
         if (!categoryExists)
         {
             throw new KeyNotFoundException($"Categoría con ID {updateDto.CategoryId} no encontrada");
         }
 
-        
+        // No permitir reducir capacidad por debajo del número de registrados
         if (updateDto.Capacity < eventEntity.RegisteredCount)
         {
             throw new InvalidOperationException(
                 $"No se puede reducir la capacidad por debajo del número de inscritos ({eventEntity.RegisteredCount})");
         }
 
-        
+        // Mapear cambios
         _mapper.Map(updateDto, eventEntity);
         eventEntity.UpdatedAt = DateTime.UtcNow;
 
@@ -156,13 +156,13 @@ public class EventService : IEventService
             throw new KeyNotFoundException($"Evento con ID {id} no encontrado");
         }
 
-        
+        // Verificar permisos: solo el organizador o Admin pueden eliminar
         if (eventEntity.OrganizerId != currentUserId && userRole != "Admin")
         {
             throw new UnauthorizedAccessException("No tienes permisos para eliminar este evento");
         }
 
-        
+        // Verificar si tiene inscripciones
         if (eventEntity.RegisteredCount > 0)
         {
             throw new InvalidOperationException("No se puede eliminar un evento con inscripciones");
@@ -181,13 +181,13 @@ public class EventService : IEventService
             throw new KeyNotFoundException($"Evento con ID {id} no encontrado");
         }
 
-        
+        // Verificar permisos: solo el organizador o Admin pueden publicar
         if (eventEntity.OrganizerId != currentUserId && userRole != "Admin")
         {
             throw new UnauthorizedAccessException("No tienes permisos para publicar este evento");
         }
 
-        
+        // Verificar que el evento está en Draft
         if (eventEntity.Status != EventStatus.Draft)
         {
             throw new InvalidOperationException("Solo se pueden publicar eventos en estado Draft");
@@ -210,13 +210,13 @@ public class EventService : IEventService
             throw new KeyNotFoundException($"Evento con ID {id} no encontrado");
         }
 
-        
+        // Verificar permisos: solo el organizador o Admin pueden cancelar
         if (eventEntity.OrganizerId != currentUserId && userRole != "Admin")
         {
             throw new UnauthorizedAccessException("No tienes permisos para cancelar este evento");
         }
 
-        
+        // Verificar que el evento no está ya completado o cancelado
         if (eventEntity.Status == EventStatus.Completed || eventEntity.Status == EventStatus.Cancelled)
         {
             throw new InvalidOperationException("No se puede cancelar un evento completado o ya cancelado");
@@ -237,20 +237,20 @@ public class EventService : IEventService
             e.Status == EventStatus.Published && e.EndDate >= DateTime.UtcNow);
         var totalRegistrations = await _context.Registrations.CountAsync();
 
-        
+        // Calcular ocupación promedio
         var events = await _context.Events.Where(e => e.Capacity > 0).ToListAsync();
         var averageOccupancy = events.Any()
             ? events.Average(e => (e.RegisteredCount * 100.0 / e.Capacity))
             : 0;
 
-        
+        // Eventos por categoría
         var eventsByCategory = await _context.Events
             .Include(e => e.Category)
             .GroupBy(e => e.Category.Name)
             .Select(g => new { Category = g.Key, Count = g.Count() })
             .ToDictionaryAsync(x => x.Category, x => x.Count);
 
-        
+        // Registros por mes (últimos 12 meses)
         var twelveMonthsAgo = DateTime.UtcNow.AddMonths(-12);
         var registrationsByMonth = await _context.Registrations
             .Where(r => r.RegistrationDate >= twelveMonthsAgo)
@@ -262,7 +262,7 @@ public class EventService : IEventService
             })
             .ToDictionaryAsync(x => x.Month, x => x.Count);
 
-        
+        // Eventos por estado
         var allEvents = await _context.Events.ToListAsync();
         var eventsByStatus = allEvents
             .GroupBy(e => e.Status.ToString())

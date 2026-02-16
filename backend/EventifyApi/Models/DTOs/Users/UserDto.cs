@@ -2,9 +2,9 @@ using EventifyApi.Models.Entities.Enums;
 
 namespace EventifyApi.Models.DTOs.Users;
 
-
-
-
+/// <summary>
+/// DTO completo de usuario
+/// </summary>
 public class UserDto
 {
     public int Id { get; set; }

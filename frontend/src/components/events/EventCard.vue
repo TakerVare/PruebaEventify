@@ -1,4 +1,15 @@
+<!--
+  =============================================================================
+  EVENT CARD - Tarjeta de evento
+  =============================================================================
+  Componente reutilizable para mostrar la información de un evento en formato
+  card. Usado en listados, home, etc.
 
+  Props:
+  - event: Objeto del evento a mostrar
+  - compact: Versión compacta de la card (opcional)
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -6,7 +17,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type { Event, EventSummary } from '@/types'
 
-
+// Props
 interface Props {
   event: Event | EventSummary
   compact?: boolean
@@ -19,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
 const router = useRouter()
 const { t, d } = useI18n()
 
-
+// Computados
 const eventDate = computed(() => {
   return d(new Date(props.event.startDate), 'short')
 })
@@ -47,7 +58,7 @@ const statusColor = computed(() => {
   }
 })
 
-
+// Métodos
 function goToDetail() {
   router.push(`/events/${props.event.id}`)
 }
@@ -60,13 +71,13 @@ function goToDetail() {
     hover
     @click="goToDetail"
   >
-    
+    <!-- Imagen del evento -->
     <v-img
       :src="event.imageUrl || 'https://via.placeholder.com/400x200?text=No+Image'"
       :height="compact ? 150 : 200"
       cover
     >
-      
+      <!-- Chip de categoría sobre la imagen -->
       <div class="pa-2 d-flex justify-space-between">
         <v-chip
           v-if="event.category"
@@ -77,7 +88,7 @@ function goToDetail() {
           {{ event.category.name }}
         </v-chip>
 
-        
+        <!-- Chip de estado (solo si no es Published) -->
         <v-chip
           v-if="event.status !== 'Published'"
           :color="statusColor"
@@ -89,12 +100,12 @@ function goToDetail() {
     </v-img>
 
     <v-card-text>
-      
+      <!-- Título -->
       <h3 class="text-h6 mb-2 text-truncate">
         {{ event.title }}
       </h3>
 
-      
+      <!-- Descripción (solo si no es compact) -->
       <p
         v-if="!compact"
         class="text-body-2 text-medium-emphasis mb-3 text-clamp"
@@ -102,21 +113,21 @@ function goToDetail() {
         {{ event.description }}
       </p>
 
-      
+      <!-- Información del evento -->
       <div class="event-info">
-        
+        <!-- Fecha -->
         <div class="d-flex align-center mb-2">
           <v-icon size="small" class="mr-2">mdi-calendar</v-icon>
           <span class="text-body-2">{{ eventDate }}</span>
         </div>
 
-        
+        <!-- Ubicación -->
         <div v-if="event.location" class="d-flex align-center mb-2">
           <v-icon size="small" class="mr-2">mdi-map-marker</v-icon>
           <span class="text-body-2 text-truncate">{{ event.location.name }}</span>
         </div>
 
-        
+        <!-- Plazas disponibles -->
         <div class="d-flex align-center">
           <v-icon size="small" class="mr-2">mdi-account-group</v-icon>
           <span class="text-body-2">
@@ -142,7 +153,7 @@ function goToDetail() {
       </div>
     </v-card-text>
 
-    
+    <!-- Acciones (solo si no es compact) -->
     <v-card-actions v-if="!compact">
       <v-btn
         color="primary"

@@ -1,9 +1,9 @@
 namespace EventifyApi.Models.DTOs.Common;
 
-
-
-
-
+/// <summary>
+/// Respuesta estándar de la API para operaciones exitosas
+/// </summary>
+/// <typeparam name="T">Tipo de dato retornado</typeparam>
 public class ApiResponse<T>
 {
     public T? Data { get; set; }

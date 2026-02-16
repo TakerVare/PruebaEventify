@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Common;
 
-
-
-
+/// <summary>
+/// Respuesta de error estándar de la API
+/// </summary>
 public class ApiErrorResponse
 {
     public int StatusCode { get; set; }

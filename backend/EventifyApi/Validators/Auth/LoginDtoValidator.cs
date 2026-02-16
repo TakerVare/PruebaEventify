@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventifyApi.Validators.Auth;
 
-
-
-
+/// <summary>
+/// Validador para LoginDto
+/// </summary>
 public class LoginDtoValidator : AbstractValidator<LoginDto>
 {
     public LoginDtoValidator()

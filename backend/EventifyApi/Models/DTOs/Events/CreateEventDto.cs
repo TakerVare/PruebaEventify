@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Events;
 
-
-
-
+/// <summary>
+/// DTO para crear nuevo evento
+/// </summary>
 public class CreateEventDto
 {
     public string Title { get; set; } = string.Empty;

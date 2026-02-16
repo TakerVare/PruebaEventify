@@ -54,4 +54,92 @@ coverage
 # -----------------------------------------------------------------------------
 
 # Visual Studio Code
-.vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.history
+
+# WebStorm / JetBrains
+.idea
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+
+# -----------------------------------------------------------------------------
+# SISTEMA OPERATIVO
+# -----------------------------------------------------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# -----------------------------------------------------------------------------
+# VITE
+# -----------------------------------------------------------------------------
+.vite
+
+# -----------------------------------------------------------------------------
+# TYPESCRIPT
+# -----------------------------------------------------------------------------
+*.tsbuildinfo
+
+# -----------------------------------------------------------------------------
+# OTROS
+# -----------------------------------------------------------------------------
+
+# Archivos temporales
+*.tmp
+*.temp
+*.cache
+
+# Backups
+*.bak
+*.backup
+
+# Source maps en producción
+*.map
+
+# Certificados SSL (si se usan para desarrollo local)
+*.pem
+*.key
+*.crt
+
+# Archivos de base de datos local
+*.db
+*.sqlite
+*.sqlite3

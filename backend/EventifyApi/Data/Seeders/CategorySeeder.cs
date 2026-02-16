@@ -3,17 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventifyApi.Data.Seeders;
 
-
-
-
+/// <summary>
+/// Seeder de categorías predefinidas
+/// </summary>
 public static class CategorySeeder
 {
-    
-    
-    
+    /// <summary>
+    /// Inserta las categorías predefinidas en la base de datos
+    /// </summary>
     public static async Task SeedAsync(ApplicationDbContext context)
     {
-        
+        // Verificar si ya existen categorías
         if (await context.Categories.AnyAsync())
         {
             Console.WriteLine("✓ Categorías ya existen, omitiendo seeder...");

@@ -1,9 +1,9 @@
 namespace EventifyApi.Models.DTOs.Common;
 
-
-
-
-
+/// <summary>
+/// Respuesta paginada estándar
+/// </summary>
+/// <typeparam name="T">Tipo de elementos en la colección</typeparam>
 public class PaginatedResponse<T>
 {
     public List<T> Items { get; set; } = new();

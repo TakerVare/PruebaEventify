@@ -1,4 +1,17 @@
-
+<!--
+  =============================================================================
+  DASHBOARD VIEW - Panel de administración
+  =============================================================================
+  Vista principal del panel de administración con:
+  - KPIs principales (eventos, usuarios, registros, ubicaciones)
+  - Gráficas de estadísticas (Chart.js):
+    * Eventos por categoría (Doughnut)
+    * Registros por mes (Line)
+    * Eventos por estado (Bar)
+  - Eventos recientes
+  - Acciones rápidas
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -13,7 +26,7 @@ import { useCategoriesStore } from '@/stores/categories'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title } from 'chart.js'
 import { Doughnut, Line, Bar } from 'vue-chartjs'
 
-
+// Registrar componentes de Chart.js
 ChartJS.register(
   ArcElement,
   Tooltip,
@@ -35,10 +48,10 @@ const locationsStore = useLocationsStore()
 const registrationsStore = useRegistrationsStore()
 const categoriesStore = useCategoriesStore()
 
-
+// Estado
 const loading = ref(true)
 
-
+// KPIs computados
 const kpis = computed(() => {
   return [
     {
@@ -76,7 +89,7 @@ const kpis = computed(() => {
   ]
 })
 
-
+// Datos para gráficas
 const eventsByCategoryData = computed(() => {
   const categories = categoriesStore.categories
   const data = categories.map(cat => {
@@ -98,7 +111,7 @@ const eventsByCategoryData = computed(() => {
 })
 
 const registrationsByMonthData = computed(() => {
-  
+  // Simulación de datos por mes (últimos 6 meses)
   const months = ['Ago', 'Sep', 'Oct', 'Nov', 'Dic', 'Ene']
   const data = [45, 52, 61, 58, 72, 84]
 
@@ -147,7 +160,7 @@ const eventsByStatusData = computed(() => {
   }
 })
 
-
+// Opciones de gráficas
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
@@ -158,12 +171,12 @@ const chartOptions = {
   }
 }
 
-
+// Eventos recientes
 const recentEvents = computed(() => {
   return eventsStore.events.slice(0, 5)
 })
 
-
+// Métodos
 async function loadDashboardData() {
   loading.value = true
 
@@ -185,7 +198,7 @@ function formatDate(date: string): string {
   return d(new Date(date), 'short')
 }
 
-
+// Cargar datos al montar
 onMounted(async () => {
   await loadDashboardData()
 })
@@ -193,7 +206,7 @@ onMounted(async () => {
 
 <template>
   <div class="dashboard-view">
-    
+    <!-- Encabezado -->
     <div class="mb-6">
       <h1 class="text-h4 font-weight-bold mb-2">
         Dashboard
@@ -203,7 +216,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    
+    <!-- Loading -->
     <div v-if="loading" class="text-center py-12">
       <v-progress-circular
         indeterminate
@@ -213,7 +226,7 @@ onMounted(async () => {
     </div>
 
     <div v-else>
-      
+      <!-- KPIs -->
       <v-row class="mb-6">
         <v-col
           v-for="(kpi, index) in kpis"
@@ -261,9 +274,9 @@ onMounted(async () => {
         </v-col>
       </v-row>
 
-      
+      <!-- Gráficas -->
       <v-row class="mb-6">
-        
+        <!-- Eventos por categoría -->
         <v-col cols="12" md="4">
           <v-card>
             <v-card-title>
@@ -282,7 +295,7 @@ onMounted(async () => {
           </v-card>
         </v-col>
 
-        
+        <!-- Registros por mes -->
         <v-col cols="12" md="8">
           <v-card>
             <v-card-title>
@@ -301,7 +314,7 @@ onMounted(async () => {
           </v-card>
         </v-col>
 
-        
+        <!-- Eventos por estado -->
         <v-col cols="12" md="12">
           <v-card>
             <v-card-title>
@@ -321,9 +334,9 @@ onMounted(async () => {
         </v-col>
       </v-row>
 
-      
+      <!-- Eventos recientes y acciones rápidas -->
       <v-row>
-        
+        <!-- Eventos recientes -->
         <v-col cols="12" md="8">
           <v-card>
             <v-card-title class="d-flex justify-space-between align-center">
@@ -374,7 +387,7 @@ onMounted(async () => {
           </v-card>
         </v-col>
 
-        
+        <!-- Acciones rápidas -->
         <v-col cols="12" md="4">
           <v-card>
             <v-card-title>
@@ -449,6 +462,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .dashboard-view {
-  
+  // Estilos específicos si son necesarios
 }
 </style>

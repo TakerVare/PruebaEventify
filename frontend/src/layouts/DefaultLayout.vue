@@ -1,20 +1,43 @@
+<!--
+  =============================================================================
+  DEFAULT LAYOUT - Layout para vistas públicas
+  =============================================================================
+  Layout utilizado en las páginas públicas de la aplicación:
+  - Home
+  - Lista de eventos
+  - Detalle de evento
+  - Perfil de usuario
 
+  Incluye:
+  - Header público con navegación
+  - Contenido principal
+  - Footer público
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import PublicHeader from '@/components/common/PublicHeader.vue'
 import PublicFooter from '@/components/common/PublicFooter.vue'
 
-
+// Estado del drawer de navegación móvil
 const drawer = ref(false)
 </script>
 
 <template>
   <div class="default-layout">
-    
+    <!--
+      =========================================================================
+      HEADER PÚBLICO
+      =========================================================================
+    -->
     <PublicHeader @toggle-drawer="drawer = !drawer" />
 
-    
+    <!--
+      =========================================================================
+      DRAWER DE NAVEGACIÓN MÓVIL
+      =========================================================================
+    -->
     <v-navigation-drawer
       v-model="drawer"
       temporary
@@ -45,11 +68,15 @@ const drawer = ref(false)
       </v-list>
     </v-navigation-drawer>
 
-    
+    <!--
+      =========================================================================
+      CONTENIDO PRINCIPAL
+      =========================================================================
+    -->
     <v-main>
-      
+      <!-- Contenedor con ancho máximo y padding -->
       <v-container fluid class="pa-0">
-        
+        <!-- RouterView renderiza el contenido de cada vista -->
         <router-view v-slot="{ Component, route }">
           <transition name="fade" mode="out-in">
             <component :is="Component" :key="route.path" />
@@ -58,13 +85,19 @@ const drawer = ref(false)
       </v-container>
     </v-main>
 
-    
+    <!--
+      =========================================================================
+      FOOTER PÚBLICO
+      =========================================================================
+    -->
     <PublicFooter />
   </div>
 </template>
 
 <style scoped lang="scss">
-
+/**
+ * Transición fade para cambios de vista
+ */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;

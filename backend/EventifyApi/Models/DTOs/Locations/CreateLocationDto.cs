@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Locations;
 
-
-
-
+/// <summary>
+/// DTO para crear nueva ubicación
+/// </summary>
 public class CreateLocationDto
 {
     public string Name { get; set; } = string.Empty;

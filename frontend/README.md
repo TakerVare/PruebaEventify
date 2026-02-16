@@ -79,7 +79,7 @@ cp .env.example .env
 2. Edita el archivo `.env` con tu configuración:
 ```env
 # URL del backend API
-VITE_API_URL=http:
+VITE_API_URL=http://localhost:5000/api
 
 # Configuración de autenticación
 VITE_JWT_SECRET=your-secret-key-here
@@ -98,7 +98,7 @@ Inicia el servidor de desarrollo con hot-reload:
 npm run dev
 ```
 
-La aplicación estará disponible en `http:
+La aplicación estará disponible en `http://localhost:5173`
 
 ### Build de Producción
 Compila y optimiza para producción:
@@ -232,15 +232,15 @@ frontend/
 En modo desarrollo, puedes usar estos usuarios de prueba:
 
 ```typescript
-
+// Administrador
 email: admin@eventify.com
 password: Admin123!
 
-
+// Organizador
 email: organizer@eventify.com
 password: Organizer123!
 
-
+// Usuario regular
 email: user@eventify.com
 password: User123!
 ```
@@ -249,13 +249,13 @@ password: User123!
 
 1. Crea el archivo en `src/views/`:
 ```typescript
-
+// src/views/ejemplo/MiVista.vue
 <script setup lang="ts">
-
+// Tu código aquí
 </script>
 
 <template>
-  
+  <!-- Tu template aquí -->
 </template>
 ```
 
@@ -277,12 +277,12 @@ password: User123!
 
 1. Crea el archivo en `src/stores/`:
 ```typescript
-
+// src/stores/miStore.ts
 import { defineStore } from 'pinia'
 
 export const useMiStore = defineStore('miStore', () => {
-  
-  return {  }
+  // Estado, getters y actions aquí
+  return { /* ... */ }
 })
 ```
 
@@ -298,7 +298,7 @@ const miStore = useMiStore()
 Los servicios están configurados en `src/services/`. Ejemplo:
 
 ```typescript
-
+// src/services/miServicio.ts
 import { apiClient } from './apiClient'
 
 export const miServicio = {
@@ -319,7 +319,7 @@ El `apiClient` ya incluye:
 Añade traducciones en `src/locales/`:
 
 ```json
-
+// src/locales/es.json
 {
   "mi": {
     "traduccion": "Mi texto en español"
@@ -332,7 +332,7 @@ Usa en componentes:
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-console.log(t('mi.traduccion')) 
+console.log(t('mi.traduccion')) // "Mi texto en español"
 ```
 
 ### Temas y Estilos
@@ -342,9 +342,9 @@ Los colores del tema se configuran en `src/plugins/vuetify.ts`:
 ```typescript
 const myTheme = {
   colors: {
-    primary: '#6366F1',    
-    secondary: '#8B5CF6',  
-    
+    primary: '#6366F1',    // Indigo
+    secondary: '#8B5CF6',  // Purple
+    // ...
   }
 }
 ```
@@ -388,9 +388,9 @@ Desarrollado como proyecto académico para 2º DAW - Desarrollo de Aplicaciones 
 
 ## 🔗 Enlaces Útiles
 
-- [Vue 3 Docs](https:
-- [Vuetify 3 Docs](https:
-- [Pinia Docs](https:
-- [Vue Router Docs](https:
-- [TypeScript Docs](https:
-- [Vite Docs](https:
+- [Vue 3 Docs](https://vuejs.org/)
+- [Vuetify 3 Docs](https://vuetifyjs.com/)
+- [Pinia Docs](https://pinia.vuejs.org/)
+- [Vue Router Docs](https://router.vuejs.org/)
+- [TypeScript Docs](https://www.typescriptlang.org/)
+- [Vite Docs](https://vitejs.dev/)

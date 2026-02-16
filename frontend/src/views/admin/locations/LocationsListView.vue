@@ -1,4 +1,14 @@
-
+<!--
+  =============================================================================
+  ADMIN LOCATIONS LIST VIEW - Lista de ubicaciones (Administración)
+  =============================================================================
+  Vista de administración que muestra todas las ubicaciones con:
+  - Tabla de datos con paginación
+  - Filtros por estado (activas/inactivas) y búsqueda
+  - Acciones CRUD (crear, editar, eliminar, activar/desactivar)
+  - Estadísticas rápidas
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -14,7 +24,7 @@ const { t } = useI18n()
 const locationsStore = useLocationsStore()
 const uiStore = useUiStore()
 
-
+// Estado
 const loading = ref(true)
 const search = ref('')
 const statusFilter = ref<'all' | 'active' | 'inactive'>('all')
@@ -22,7 +32,7 @@ const showDeleteDialog = ref(false)
 const locationToDelete = ref<Location | null>(null)
 const deleting = ref(false)
 
-
+// Paginación
 const {
   currentPage,
   pageSize,
@@ -33,11 +43,11 @@ const {
   updateTotalCount
 } = usePagination(10)
 
-
+// Computados
 const filteredLocations = computed(() => {
   let filtered = locationsStore.locations
 
-  
+  // Filtrar por búsqueda
   if (search.value) {
     const searchLower = search.value.toLowerCase()
     filtered = filtered.filter(
@@ -48,7 +58,7 @@ const filteredLocations = computed(() => {
     )
   }
 
-  
+  // Filtrar por estado
   if (statusFilter.value === 'active') {
     filtered = filtered.filter(loc => loc.isActive)
   } else if (statusFilter.value === 'inactive') {
@@ -71,7 +81,7 @@ const statusOptions = [
   { value: 'inactive', title: 'Inactivas' }
 ]
 
-
+// Headers de la tabla
 const headers = [
   { title: 'Nombre', key: 'name', sortable: true },
   { title: 'Ciudad', key: 'city', sortable: true },
@@ -81,7 +91,7 @@ const headers = [
   { title: 'Acciones', key: 'actions', sortable: false, align: 'end' }
 ]
 
-
+// Métodos
 function goToCreate() {
   router.push('/admin/locations/new')
 }
@@ -143,7 +153,7 @@ async function loadLocations() {
   }
 }
 
-
+// Cargar ubicaciones al montar
 onMounted(async () => {
   await loadLocations()
 })
@@ -151,7 +161,7 @@ onMounted(async () => {
 
 <template>
   <div class="admin-locations-list-view">
-    
+    <!-- Encabezado -->
     <div class="d-flex justify-space-between align-center mb-6">
       <div>
         <h1 class="text-h4 font-weight-bold mb-2">
@@ -172,7 +182,7 @@ onMounted(async () => {
       </v-btn>
     </div>
 
-    
+    <!-- Filtros -->
     <v-card class="mb-6">
       <v-card-text>
         <v-row>
@@ -212,7 +222,7 @@ onMounted(async () => {
       </v-card-text>
     </v-card>
 
-    
+    <!-- Tabla de ubicaciones -->
     <v-card>
       <v-data-table
         :headers="headers"
@@ -222,7 +232,7 @@ onMounted(async () => {
         hide-default-footer
         class="elevation-1"
       >
-        
+        <!-- Nombre -->
         <template #item.name="{ item }">
           <div class="font-weight-medium">{{ item.name }}</div>
           <div v-if="item.description" class="text-caption text-medium-emphasis">
@@ -230,7 +240,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        
+        <!-- Capacidad -->
         <template #item.capacity="{ item }">
           <v-chip size="small" color="primary">
             <v-icon start size="small">mdi-account-group</v-icon>
@@ -238,7 +248,7 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        
+        <!-- Estado -->
         <template #item.isActive="{ item }">
           <v-chip
             :color="item.isActive ? 'success' : 'error'"
@@ -249,7 +259,7 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        
+        <!-- Acciones -->
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
             <v-tooltip text="Editar">
@@ -293,7 +303,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        
+        <!-- No data -->
         <template #no-data>
           <div class="text-center py-8">
             <v-icon size="64" color="grey-lighten-1" class="mb-4">
@@ -316,7 +326,7 @@ onMounted(async () => {
         </template>
       </v-data-table>
 
-      
+      <!-- Paginación -->
       <v-divider />
       <div class="pa-4">
         <v-pagination
@@ -328,7 +338,7 @@ onMounted(async () => {
       </div>
     </v-card>
 
-    
+    <!-- Diálogo de confirmación de eliminación -->
     <v-dialog v-model="showDeleteDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5">
@@ -366,6 +376,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .admin-locations-list-view {
-  
+  // Estilos específicos si son necesarios
 }
 </style>

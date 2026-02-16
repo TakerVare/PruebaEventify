@@ -9,9 +9,9 @@ using System.Security.Claims;
 
 namespace EventifyApi.Controllers;
 
-
-
-
+/// <summary>
+/// Controlador de eventos
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class EventsController : ControllerBase
@@ -30,9 +30,9 @@ public class EventsController : ControllerBase
         _updateValidator = updateValidator;
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene eventos con paginación y filtros avanzados
+    /// </summary>
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<PaginatedResponse<EventSummaryDto>>> GetAll(
@@ -60,9 +60,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene un evento por ID
+    /// </summary>
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<EventDto>>> GetById(int id)
@@ -82,9 +82,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene los eventos del organizador actual
+    /// </summary>
     [HttpGet("my-events")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<List<EventSummaryDto>>>> GetMyEvents()
@@ -107,14 +107,14 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Crea un nuevo evento
+    /// </summary>
     [HttpPost]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<EventDto>>> Create([FromBody] CreateEventDto createDto)
     {
-        
+        // Validar DTO
         var validationResult = await _createValidator.ValidateAsync(createDto);
         if (!validationResult.IsValid)
         {
@@ -147,14 +147,14 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Actualiza un evento existente
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<EventDto>>> Update(int id, [FromBody] UpdateEventDto updateDto)
     {
-        
+        // Validar DTO
         var validationResult = await _updateValidator.ValidateAsync(updateDto);
         if (!validationResult.IsValid)
         {
@@ -196,9 +196,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Elimina un evento
+    /// </summary>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<object>>> Delete(int id)
@@ -235,9 +235,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Publica un evento
+    /// </summary>
     [HttpPost("{id}/publish")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<EventDto>>> Publish(int id)
@@ -274,9 +274,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Cancela un evento
+    /// </summary>
     [HttpPost("{id}/cancel")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<EventDto>>> Cancel(int id)
@@ -313,9 +313,9 @@ public class EventsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene estadísticas de eventos para dashboard
+    /// </summary>
     [HttpGet("stats")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<EventStatsDto>>> GetStats()

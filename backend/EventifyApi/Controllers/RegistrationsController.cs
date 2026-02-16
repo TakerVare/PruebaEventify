@@ -7,9 +7,9 @@ using System.Security.Claims;
 
 namespace EventifyApi.Controllers;
 
-
-
-
+/// <summary>
+/// Controlador de inscripciones
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -22,9 +22,9 @@ public class RegistrationsController : ControllerBase
         _registrationService = registrationService;
     }
 
-    
-    
-    
+    /// <summary>
+    /// Registra al usuario actual en un evento
+    /// </summary>
     [HttpPost("register")]
     public async Task<ActionResult<ApiResponse<RegistrationDto>>> Register([FromBody] CreateRegistrationDto createDto)
     {
@@ -54,9 +54,9 @@ public class RegistrationsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene las inscripciones del usuario actual
+    /// </summary>
     [HttpGet("my-registrations")]
     public async Task<ActionResult<ApiResponse<List<RegistrationDto>>>> GetMyRegistrations()
     {
@@ -78,9 +78,9 @@ public class RegistrationsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene una inscripción por ID
+    /// </summary>
     [HttpGet("{id}")]
     public async Task<ActionResult<ApiResponse<RegistrationDto>>> GetById(int id)
     {
@@ -112,9 +112,9 @@ public class RegistrationsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Cancela una inscripción del usuario actual
+    /// </summary>
     [HttpPost("{id}/cancel")]
     public async Task<ActionResult<ApiResponse<object>>> Cancel(int id)
     {
@@ -148,9 +148,9 @@ public class RegistrationsController : ControllerBase
         }
     }
 
-    
-    
-    
+    /// <summary>
+    /// Actualiza el estado de una inscripción (Organizer/Admin del evento)
+    /// </summary>
     [HttpPut("{id}")]
     [Authorize(Roles = "Organizer,Admin")]
     public async Task<ActionResult<ApiResponse<RegistrationDto>>> UpdateStatus(int id, [FromBody] UpdateRegistrationDto updateDto)

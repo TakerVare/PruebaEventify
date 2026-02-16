@@ -1,4 +1,14 @@
-
+<!--
+  =============================================================================
+  HOME VIEW - Página principal
+  =============================================================================
+  Página de inicio de la aplicación pública con:
+  - Hero section con CTA
+  - Eventos destacados/próximos
+  - Categorías populares
+  - Sección de características
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
@@ -13,10 +23,10 @@ const { t } = useI18n()
 const eventsStore = useEventsStore()
 const categoriesStore = useCategoriesStore()
 
-
+// Estado
 const loading = ref(true)
 
-
+// Cargar datos al montar
 onMounted(async () => {
   loading.value = true
   await Promise.all([
@@ -26,7 +36,7 @@ onMounted(async () => {
   loading.value = false
 })
 
-
+// Características de la plataforma
 const features = [
   {
     icon: 'mdi-calendar-check',
@@ -53,22 +63,26 @@ const features = [
 
 <template>
   <div class="home-view">
-    
+    <!--
+      =========================================================================
+      HERO SECTION
+      =========================================================================
+    -->
     <v-container fluid class="hero-section pa-0">
       <v-container class="py-16">
         <v-row align="center" justify="center">
           <v-col cols="12" md="8" class="text-center">
-            
+            <!-- Título principal -->
             <h1 class="text-h2 text-sm-h1 font-weight-bold mb-4">
               {{ t('general.appName') }}
             </h1>
 
-            
+            <!-- Subtítulo -->
             <p class="text-h6 text-sm-h5 text-medium-emphasis mb-8">
               La plataforma líder para gestionar y descubrir eventos increíbles
             </p>
 
-            
+            <!-- CTAs -->
             <div class="d-flex flex-column flex-sm-row ga-4 justify-center">
               <v-btn
                 color="primary"
@@ -93,7 +107,11 @@ const features = [
       </v-container>
     </v-container>
 
-    
+    <!--
+      =========================================================================
+      EVENTOS DESTACADOS
+      =========================================================================
+    -->
     <v-container class="py-12">
       <div class="d-flex justify-space-between align-center mb-6">
         <div>
@@ -115,7 +133,7 @@ const features = [
         </v-btn>
       </div>
 
-      
+      <!-- Loading skeleton -->
       <v-row v-if="loading">
         <v-col
           v-for="n in 6"
@@ -128,7 +146,7 @@ const features = [
         </v-col>
       </v-row>
 
-      
+      <!-- Lista de eventos -->
       <v-row v-else>
         <v-col
           v-for="event in eventsStore.upcomingEvents.slice(0, 6)"
@@ -141,7 +159,7 @@ const features = [
         </v-col>
       </v-row>
 
-      
+      <!-- Mensaje si no hay eventos -->
       <v-alert
         v-if="!loading && eventsStore.upcomingEvents.length === 0"
         type="info"
@@ -152,7 +170,11 @@ const features = [
       </v-alert>
     </v-container>
 
-    
+    <!--
+      =========================================================================
+      CATEGORÍAS POPULARES
+      =========================================================================
+    -->
     <v-container fluid class="categories-section py-12">
       <v-container>
         <div class="text-center mb-8">
@@ -193,7 +215,11 @@ const features = [
       </v-container>
     </v-container>
 
-    
+    <!--
+      =========================================================================
+      CARACTERÍSTICAS DE LA PLATAFORMA
+      =========================================================================
+    -->
     <v-container class="py-12">
       <div class="text-center mb-8">
         <h2 class="text-h4 font-weight-bold mb-2">
@@ -233,7 +259,11 @@ const features = [
       </v-row>
     </v-container>
 
-    
+    <!--
+      =========================================================================
+      CTA FINAL
+      =========================================================================
+    -->
     <v-container fluid class="cta-section py-12">
       <v-container>
         <v-row justify="center">
@@ -262,7 +292,7 @@ const features = [
 
 <style scoped lang="scss">
 .home-view {
-  
+  // Hero section con gradiente
   .hero-section {
     background: linear-gradient(
       135deg,
@@ -272,12 +302,12 @@ const features = [
     color: white;
   }
 
-  
+  // Sección de categorías con fondo
   .categories-section {
     background: rgb(var(--v-theme-surface-variant));
   }
 
-  
+  // Cards de categorías con efecto hover
   .category-card {
     cursor: pointer;
     transition: transform 0.2s ease;
@@ -287,12 +317,12 @@ const features = [
     }
   }
 
-  
+  // Cards de características
   .feature-card {
     border: 1px solid rgba(var(--v-theme-on-surface), 0.12);
   }
 
-  
+  // CTA section con gradiente suave
   .cta-section {
     background: linear-gradient(
       to right,

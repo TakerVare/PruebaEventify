@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Locations;
 
-
-
-
+/// <summary>
+/// DTO resumido de ubicación (para listados y referencias)
+/// </summary>
 public class LocationSummaryDto
 {
     public int Id { get; set; }

@@ -1,4 +1,19 @@
+<!--
+  =============================================================================
+  EVENT FILTERS - Componente de filtros para eventos
+  =============================================================================
+  Componente para filtrar y buscar eventos. Incluye:
+  - Búsqueda por texto
+  - Filtro por categoría
+  - Filtro por ubicación
+  - Filtro por rango de fechas
+  - Ordenación (fecha, título)
+  - Botón para limpiar filtros
 
+  Emits:
+  - filter: Emite los filtros aplicados cuando cambian
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
@@ -7,7 +22,7 @@ import { useCategoriesStore } from '@/stores/categories'
 import { useLocationsStore } from '@/stores/locations'
 import type { EventSearchParams } from '@/types'
 
-
+// Emits
 const emit = defineEmits<{
   filter: [filters: EventSearchParams]
 }>()
@@ -16,7 +31,7 @@ const { t } = useI18n()
 const categoriesStore = useCategoriesStore()
 const locationsStore = useLocationsStore()
 
-
+// Estado local de filtros
 const search = ref('')
 const categoryId = ref<number | null>(null)
 const locationId = ref<number | null>(null)
@@ -25,7 +40,7 @@ const endDate = ref<string | null>(null)
 const sortBy = ref<'startDate' | 'title'>('startDate')
 const sortOrder = ref<'asc' | 'desc'>('asc')
 
-
+// Cargar datos necesarios
 onMounted(async () => {
   await Promise.all([
     categoriesStore.fetchCategories(),
@@ -33,7 +48,7 @@ onMounted(async () => {
   ])
 })
 
-
+// Opciones para los selects
 const categoryOptions = computed(() => {
   return [
     { value: null, title: t('events.filters.allCategories') },
@@ -64,7 +79,7 @@ const sortOrderOptions = [
   { value: 'desc', title: 'Descendente' }
 ]
 
-
+// Computado para saber si hay filtros activos
 const hasActiveFilters = computed(() => {
   return !!(
     search.value ||
@@ -75,12 +90,12 @@ const hasActiveFilters = computed(() => {
   )
 })
 
-
+// Construir objeto de filtros
 const buildFilters = (): EventSearchParams => {
   const filters: EventSearchParams = {
-    page: 1, 
+    page: 1, // Resetear a página 1 cuando cambian los filtros
     pageSize: 12,
-    status: 'Published' 
+    status: 'Published' // Solo eventos publicados en vista pública
   }
 
   if (search.value) filters.search = search.value
@@ -90,23 +105,23 @@ const buildFilters = (): EventSearchParams => {
   if (endDate.value) filters.endDate = endDate.value
   if (sortBy.value) filters.sortBy = sortBy.value
 
-  
+  // Convertir sortOrder (asc/desc) a sortDescending (boolean) para el backend
   filters.sortDescending = sortOrder.value === 'desc'
 
   return filters
 }
 
-
+// Emitir filtros cuando cambian
 const emitFilters = () => {
   emit('filter', buildFilters())
 }
 
-
+// Watchers para emitir cuando cambian los filtros
 watch([search, categoryId, locationId, startDate, endDate, sortBy, sortOrder], () => {
   emitFilters()
 }, { deep: true })
 
-
+// Limpiar todos los filtros
 const clearFilters = () => {
   search.value = ''
   categoryId.value = null
@@ -117,7 +132,7 @@ const clearFilters = () => {
   sortOrder.value = 'asc'
 }
 
-
+// Emitir filtros iniciales al montar
 onMounted(() => {
   emitFilters()
 })
@@ -147,7 +162,7 @@ onMounted(() => {
 
     <v-card-text>
       <v-row>
-        
+        <!-- Búsqueda por texto -->
         <v-col cols="12" md="6">
           <v-text-field
             v-model="search"
@@ -160,7 +175,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Filtro por categoría -->
         <v-col cols="12" sm="6" md="3">
           <v-select
             v-model="categoryId"
@@ -173,7 +188,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Filtro por ubicación -->
         <v-col cols="12" sm="6" md="3">
           <v-select
             v-model="locationId"
@@ -186,7 +201,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Fecha inicio -->
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             v-model="startDate"
@@ -199,7 +214,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Fecha fin -->
         <v-col cols="12" sm="6" md="3">
           <v-text-field
             v-model="endDate"
@@ -212,7 +227,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Ordenar por -->
         <v-col cols="12" sm="6" md="3">
           <v-select
             v-model="sortBy"
@@ -224,7 +239,7 @@ onMounted(() => {
           />
         </v-col>
 
-        
+        <!-- Orden -->
         <v-col cols="12" sm="6" md="3">
           <v-select
             v-model="sortOrder"
@@ -237,7 +252,7 @@ onMounted(() => {
         </v-col>
       </v-row>
 
-      
+      <!-- Indicador de filtros activos -->
       <v-row v-if="hasActiveFilters">
         <v-col cols="12">
           <div class="d-flex flex-wrap ga-2">
@@ -294,6 +309,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .event-filters {
-  
+  // Estilos específicos si son necesarios
 }
 </style>

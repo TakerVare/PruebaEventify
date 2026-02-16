@@ -1,9 +1,16 @@
-
+/**
+ * =============================================================================
+ * I18N/ES.TS - Traducciones en Español
+ * =============================================================================
+ * Archivo de traducción completo en español.
+ * Organizado por secciones para facilitar el mantenimiento.
+ * =============================================================================
+ */
 
 export default {
-  
-  
-  
+  // ===========================================================================
+  // GENERAL
+  // ===========================================================================
   general: {
     appName: 'Eventify',
     loading: 'Cargando...',
@@ -33,9 +40,9 @@ export default {
     optional: 'Opcional'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // NAVEGACIÓN
+  // ===========================================================================
   nav: {
     home: 'Inicio',
     events: 'Eventos',
@@ -50,9 +57,9 @@ export default {
     admin: 'Administración'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // AUTENTICACIÓN
+  // ===========================================================================
   auth: {
     login: {
       title: 'Iniciar Sesión',
@@ -92,9 +99,9 @@ export default {
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // EVENTOS
+  // ===========================================================================
   events: {
     title: 'Eventos',
     subtitle: 'Descubre los próximos eventos',
@@ -102,7 +109,7 @@ export default {
     edit: 'Editar Evento',
     delete: 'Eliminar Evento',
     
-    
+    // Campos
     fields: {
       title: 'Título',
       description: 'Descripción',
@@ -117,7 +124,7 @@ export default {
       image: 'Imagen'
     },
     
-    
+    // Estados
     status: {
       draft: 'Borrador',
       published: 'Publicado',
@@ -125,7 +132,7 @@ export default {
       completed: 'Completado'
     },
     
-    
+    // Acciones
     actions: {
       register: 'Inscribirse',
       unregister: 'Cancelar inscripción',
@@ -134,7 +141,7 @@ export default {
       duplicate: 'Duplicar'
     },
     
-    
+    // Mensajes
     messages: {
       created: 'Evento creado exitosamente',
       updated: 'Evento actualizado',
@@ -146,7 +153,7 @@ export default {
       alreadyRegistered: 'Ya estás inscrito en este evento'
     },
     
-    
+    // Filtros
     filters: {
       all: 'Todos los eventos',
       upcoming: 'Próximos',
@@ -157,7 +164,7 @@ export default {
       endDate: 'Hasta'
     },
     
-    
+    // Detalles
     details: {
       availableSpots: '{count} plazas disponibles',
       noSpots: 'No quedan plazas',
@@ -166,16 +173,16 @@ export default {
       ended: 'Finalizado'
     },
     
-    
+    // Confirmaciones
     confirmations: {
       delete: '¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer.',
       cancel: '¿Estás seguro de que deseas cancelar este evento? Los inscritos serán notificados.'
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // UBICACIONES
+  // ===========================================================================
   locations: {
     title: 'Ubicaciones',
     subtitle: 'Gestión de espacios para eventos',
@@ -183,7 +190,7 @@ export default {
     edit: 'Editar Ubicación',
     delete: 'Eliminar Ubicación',
     
-    
+    // Campos
     fields: {
       name: 'Nombre',
       address: 'Dirección',
@@ -195,7 +202,7 @@ export default {
       contactPhone: 'Teléfono de contacto'
     },
     
-    
+    // Mensajes
     messages: {
       created: 'Ubicación creada exitosamente',
       updated: 'Ubicación actualizada',
@@ -203,22 +210,22 @@ export default {
       hasEvents: 'Esta ubicación tiene eventos asociados y no puede ser eliminada'
     },
     
-    
+    // Confirmaciones
     confirmations: {
       delete: '¿Estás seguro de que deseas eliminar esta ubicación?',
       deactivate: '¿Estás seguro de que deseas desactivar esta ubicación? No se podrán crear nuevos eventos en ella.'
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // USUARIOS
+  // ===========================================================================
   users: {
     title: 'Usuarios',
     subtitle: 'Gestión de usuarios del sistema',
     edit: 'Editar Usuario',
     
-    
+    // Campos
     fields: {
       email: 'Correo electrónico',
       firstName: 'Nombre',
@@ -228,14 +235,14 @@ export default {
       createdAt: 'Fecha de registro'
     },
     
-    
+    // Roles
     roles: {
       admin: 'Administrador',
       organizer: 'Organizador',
       user: 'Usuario'
     },
     
-    
+    // Mensajes
     messages: {
       updated: 'Usuario actualizado',
       roleChanged: 'Rol actualizado correctamente',
@@ -244,14 +251,14 @@ export default {
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // INSCRIPCIONES
+  // ===========================================================================
   registrations: {
     title: 'Inscripciones',
     myRegistrations: 'Mis Inscripciones',
     
-    
+    // Estados
     status: {
       pending: 'Pendiente',
       confirmed: 'Confirmada',
@@ -260,21 +267,21 @@ export default {
       noShow: 'No asistió'
     },
     
-    
+    // Mensajes
     messages: {
       confirmed: 'Inscripción confirmada',
       cancelled: 'Inscripción cancelada'
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // DASHBOARD
+  // ===========================================================================
   dashboard: {
     title: 'Dashboard',
     subtitle: 'Panel de control y estadísticas',
     
-    
+    // KPIs
     kpis: {
       totalEvents: 'Total de Eventos',
       activeEvents: 'Eventos Activos',
@@ -282,14 +289,14 @@ export default {
       averageOccupancy: 'Ocupación Media'
     },
     
-    
+    // Gráficos
     charts: {
       eventsByCategory: 'Eventos por Categoría',
       registrationsByMonth: 'Inscripciones por Mes',
       eventsByStatus: 'Eventos por Estado'
     },
     
-    
+    // Filtros
     filters: {
       dateRange: 'Período',
       lastWeek: 'Última semana',
@@ -299,9 +306,9 @@ export default {
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // CATEGORÍAS
+  // ===========================================================================
   categories: {
     conference: 'Conferencia',
     workshop: 'Taller',
@@ -313,9 +320,9 @@ export default {
     other: 'Otro'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // VALIDACIÓN
+  // ===========================================================================
   validation: {
     required: 'Este campo es obligatorio',
     email: 'Introduce un correo electrónico válido',
@@ -334,9 +341,9 @@ export default {
     url: 'Introduce una URL válida'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // ERRORES
+  // ===========================================================================
   errors: {
     generic: 'Ha ocurrido un error. Por favor, inténtalo de nuevo.',
     network: 'Error de conexión. Comprueba tu conexión a internet.',
@@ -347,9 +354,9 @@ export default {
     validation: 'Por favor, corrige los errores del formulario.'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // CONFIGURACIÓN
+  // ===========================================================================
   settings: {
     title: 'Configuración',
     theme: {
@@ -365,9 +372,9 @@ export default {
     }
   },
 
-  
-  
-  
+  // ===========================================================================
+  // PAGINACIÓN
+  // ===========================================================================
   pagination: {
     showing: 'Mostrando {from} a {to} de {total}',
     itemsPerPage: 'Elementos por página',
@@ -375,17 +382,17 @@ export default {
     of: 'de'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // CONFIRMACIONES
+  // ===========================================================================
   confirmations: {
     title: 'Confirmar acción',
     unsavedChanges: 'Tienes cambios sin guardar. ¿Estás seguro de que deseas salir?'
   },
 
-  
-  
-  
+  // ===========================================================================
+  // FOOTER
+  // ===========================================================================
   footer: {
     copyright: '© {year} Eventify. Todos los derechos reservados.',
     privacyPolicy: 'Política de Privacidad',

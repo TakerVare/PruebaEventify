@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventifyApi.Services.Categories;
 
-
-
-
+/// <summary>
+/// Servicio de categorías (solo lectura)
+/// </summary>
 public class CategoryService : ICategoryService
 {
     private readonly ApplicationDbContext _context;
@@ -19,9 +19,9 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene todas las categorías
+    /// </summary>
     public async Task<List<CategoryDto>> GetAllAsync()
     {
         var categories = await _context.Categories
@@ -31,9 +31,9 @@ public class CategoryService : ICategoryService
         return _mapper.Map<List<CategoryDto>>(categories);
     }
 
-    
-    
-    
+    /// <summary>
+    /// Obtiene una categoría por ID
+    /// </summary>
     public async Task<CategoryDto> GetByIdAsync(int id)
     {
         var category = await _context.Categories.FindAsync(id);

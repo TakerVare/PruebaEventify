@@ -1,4 +1,14 @@
-
+/**
+ * =============================================================================
+ * STORE LOCATIONS - Gestión de ubicaciones
+ * =============================================================================
+ * Este store maneja todo lo relacionado con ubicaciones/salas:
+ * - Listado de ubicaciones con paginación y filtros
+ * - CRUD de ubicaciones (crear, leer, actualizar, eliminar)
+ * - Búsqueda y filtrado
+ * - Opciones para selects
+ * =============================================================================
+ */
 
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
@@ -13,22 +23,28 @@ import type {
 } from '@/types'
 import { useUiStore } from './ui'
 
-
-
-
+// -----------------------------------------------------------------------------
+// DEFINICIÓN DEL STORE
+// -----------------------------------------------------------------------------
 
 export const useLocationsStore = defineStore('locations', () => {
-  
-  
-  
+  // ===========================================================================
+  // ESTADO
+  // ===========================================================================
 
-  
+  /**
+   * Lista de ubicaciones cargadas
+   */
   const locations = ref<Location[]>([])
 
-  
+  /**
+   * Ubicación actualmente seleccionada/en detalle
+   */
   const currentLocation = ref<Location | null>(null)
 
-  
+  /**
+   * Información de paginación
+   */
   const pagination = ref({
     page: 1,
     pageSize: 10,
@@ -38,7 +54,9 @@ export const useLocationsStore = defineStore('locations', () => {
     hasNextPage: false
   })
 
-  
+  /**
+   * Filtros activos de búsqueda
+   */
   const searchParams = ref<LocationSearchParams>({
     search: '',
     isActive: undefined,
@@ -50,27 +68,37 @@ export const useLocationsStore = defineStore('locations', () => {
     pageSize: 10
   })
 
-  
+  /**
+   * Indica si hay una operación en curso
+   */
   const loading = ref(false)
 
-  
+  /**
+   * Mensaje de error de la última operación
+   */
   const error = ref<string | null>(null)
 
-  
-  
-  
+  // ===========================================================================
+  // GETTERS
+  // ===========================================================================
 
-  
+  /**
+   * Ubicaciones activas (disponibles para crear eventos)
+   */
   const activeLocations = computed(() => {
     return locations.value.filter(location => location.isActive)
   })
 
-  
+  /**
+   * Ubicaciones inactivas
+   */
   const inactiveLocations = computed(() => {
     return locations.value.filter(location => !location.isActive)
   })
 
-  
+  /**
+   * Opciones de ubicaciones para componentes de selección (v-select)
+   */
   const locationOptions = computed((): LocationOption[] => {
     return activeLocations.value.map(location => ({
       value: location.id,
@@ -81,7 +109,9 @@ export const useLocationsStore = defineStore('locations', () => {
     }))
   })
 
-  
+  /**
+   * Ubicaciones agrupadas por capacidad (pequeñas, medianas, grandes)
+   */
   const locationsByCapacity = computed(() => {
     const small = locations.value.filter(l => l.capacity < 50)
     const medium = locations.value.filter(l => l.capacity >= 50 && l.capacity < 100)
@@ -90,23 +120,34 @@ export const useLocationsStore = defineStore('locations', () => {
     return { small, medium, large }
   })
 
-  
+  /**
+   * Indica si hay ubicaciones cargadas
+   */
   const hasLocations = computed(() => locations.value.length > 0)
 
-  
+  /**
+   * Indica si hay más páginas disponibles
+   */
   const hasMorePages = computed(() => pagination.value.hasNextPage)
 
-  
+  /**
+   * Página actual
+   */
   const currentPage = computed(() => pagination.value.page)
 
-  
+  /**
+   * Total de páginas
+   */
   const totalPages = computed(() => pagination.value.totalPages)
 
-  
-  
-  
+  // ===========================================================================
+  // ACCIONES - LISTADO Y BÚSQUEDA
+  // ===========================================================================
 
-  
+  /**
+   * Obtiene la lista de ubicaciones con filtros y paginación
+   * @param params - Parámetros de búsqueda (opcional)
+   */
   async function fetchLocations(params?: LocationSearchParams) {
     const uiStore = useUiStore()
 
@@ -114,15 +155,15 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
+      // Actualizar parámetros de búsqueda si se proporcionan
       if (params) {
         searchParams.value = { ...searchParams.value, ...params }
       }
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones cuando se implemente
+      // const response = await locationsService.getLocations(searchParams.value)
 
-      
+      // MOCK: Simular respuesta del backend
       const mockResponse: PaginatedResponse<Location> = {
         items: generateMockLocations(searchParams.value.pageSize || 10),
         page: searchParams.value.page || 1,
@@ -153,7 +194,10 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Obtiene todas las ubicaciones activas (sin paginación)
+   * Útil para llenar selects y dropdowns
+   */
   async function fetchAllActiveLocations() {
     const uiStore = useUiStore()
 
@@ -161,10 +205,10 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones
+      // const allLocations = await locationsService.getAllActive()
 
-      
+      // MOCK: Simular respuesta
       const mockLocations = generateMockLocations(5)
       locations.value = mockLocations.filter(l => l.isActive)
 
@@ -178,7 +222,10 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Obtiene una ubicación por su ID
+   * @param id - ID de la ubicación
+   */
   async function fetchLocationById(id: number) {
     const uiStore = useUiStore()
 
@@ -186,10 +233,10 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones
+      // const location = await locationsService.getLocationById(id)
 
-      
+      // MOCK: Simular respuesta
       const mockLocation = generateMockLocations(1)[0]
       mockLocation.id = id
 
@@ -204,20 +251,28 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Busca ubicaciones por término de búsqueda
+   * @param searchTerm - Término de búsqueda
+   */
   async function searchLocations(searchTerm: string) {
     searchParams.value.search = searchTerm
-    searchParams.value.page = 1 
+    searchParams.value.page = 1 // Reset a primera página
     return await fetchLocations()
   }
 
-  
+  /**
+   * Aplica filtros de búsqueda
+   * @param filters - Filtros a aplicar
+   */
   async function applyFilters(filters: Partial<LocationSearchParams>) {
     searchParams.value = { ...searchParams.value, ...filters, page: 1 }
     return await fetchLocations()
   }
 
-  
+  /**
+   * Limpia todos los filtros
+   */
   async function clearFilters() {
     searchParams.value = {
       search: '',
@@ -232,31 +287,44 @@ export const useLocationsStore = defineStore('locations', () => {
     return await fetchLocations()
   }
 
-  
+  /**
+   * Cambia de página
+   * @param page - Número de página
+   */
   async function changePage(page: number) {
     searchParams.value.page = page
     return await fetchLocations()
   }
 
-  
+  /**
+   * Cambia el tamaño de página
+   * @param pageSize - Número de elementos por página
+   */
   async function changePageSize(pageSize: number) {
     searchParams.value.pageSize = pageSize
-    searchParams.value.page = 1 
+    searchParams.value.page = 1 // Reset a primera página
     return await fetchLocations()
   }
 
-  
+  /**
+   * Cambia la ordenación
+   * @param sortBy - Campo por el que ordenar
+   * @param sortOrder - Dirección de ordenación
+   */
   async function changeSorting(sortBy: string, sortOrder: 'asc' | 'desc') {
     searchParams.value.sortBy = sortBy as any
     searchParams.value.sortOrder = sortOrder
     return await fetchLocations()
   }
 
-  
-  
-  
+  // ===========================================================================
+  // ACCIONES - CRUD
+  // ===========================================================================
 
-  
+  /**
+   * Crea una nueva ubicación
+   * @param locationData - Datos de la ubicación a crear
+   */
   async function createLocation(locationData: CreateLocationDto) {
     const uiStore = useUiStore()
 
@@ -264,10 +332,10 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones
+      // const newLocation = await locationsService.createLocation(locationData)
 
-      
+      // MOCK: Simular respuesta
       const newLocation: Location = {
         id: Date.now(),
         ...locationData,
@@ -275,7 +343,7 @@ export const useLocationsStore = defineStore('locations', () => {
         createdAt: new Date().toISOString()
       }
 
-      
+      // Añadir a la lista local
       locations.value.unshift(newLocation)
 
       uiStore.showSuccess('Ubicación creada exitosamente')
@@ -289,7 +357,11 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Actualiza una ubicación existente
+   * @param id - ID de la ubicación
+   * @param locationData - Datos actualizados
+   */
   async function updateLocation(id: number, locationData: UpdateLocationDto) {
     const uiStore = useUiStore()
 
@@ -297,10 +369,10 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones
+      // const updatedLocation = await locationsService.updateLocation(id, locationData)
 
-      
+      // MOCK: Simular respuesta
       const index = locations.value.findIndex(l => l.id === id)
       if (index !== -1) {
         locations.value[index] = { ...locations.value[index], ...locationData }
@@ -321,7 +393,10 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Elimina una ubicación
+   * @param id - ID de la ubicación a eliminar
+   */
   async function deleteLocation(id: number) {
     const uiStore = useUiStore()
 
@@ -329,10 +404,10 @@ export const useLocationsStore = defineStore('locations', () => {
       loading.value = true
       error.value = null
 
-      
-      
+      // TODO: Llamar al servicio de ubicaciones
+      // await locationsService.deleteLocation(id)
 
-      
+      // MOCK: Simular eliminación
       locations.value = locations.value.filter(l => l.id !== id)
 
       if (currentLocation.value && currentLocation.value.id === id) {
@@ -350,40 +425,56 @@ export const useLocationsStore = defineStore('locations', () => {
     }
   }
 
-  
+  /**
+   * Activa una ubicación
+   * @param id - ID de la ubicación
+   */
   async function activateLocation(id: number) {
     return await updateLocation(id, { isActive: true })
   }
 
-  
+  /**
+   * Desactiva una ubicación
+   * @param id - ID de la ubicación
+   */
   async function deactivateLocation(id: number) {
     return await updateLocation(id, { isActive: false })
   }
 
-  
-  
-  
+  // ===========================================================================
+  // ACCIONES - HELPERS
+  // ===========================================================================
 
-  
+  /**
+   * Limpia la ubicación actual
+   */
   function clearCurrentLocation() {
     currentLocation.value = null
   }
 
-  
+  /**
+   * Establece la ubicación actual
+   * @param location - Ubicación a establecer
+   */
   function setCurrentLocation(location: Location) {
     currentLocation.value = location
   }
 
-  
+  /**
+   * Obtiene una ubicación por ID desde la lista cargada (sin API call)
+   * @param id - ID de la ubicación
+   */
   function getLocationById(id: number): Location | undefined {
     return locations.value.find(l => l.id === id)
   }
 
-  
-  
-  
+  // ===========================================================================
+  // RESET
+  // ===========================================================================
 
-  
+  /**
+   * Resetea el store a sus valores por defecto
+   */
   function $reset() {
     locations.value = []
     currentLocation.value = null
@@ -406,12 +497,12 @@ export const useLocationsStore = defineStore('locations', () => {
     error.value = null
   }
 
-  
-  
-  
+  // ===========================================================================
+  // RETURN (API PÚBLICA DEL STORE)
+  // ===========================================================================
 
   return {
-    
+    // Estado
     locations,
     currentLocation,
     pagination,
@@ -419,7 +510,7 @@ export const useLocationsStore = defineStore('locations', () => {
     loading,
     error,
 
-    
+    // Getters
     activeLocations,
     inactiveLocations,
     locationOptions,
@@ -429,7 +520,7 @@ export const useLocationsStore = defineStore('locations', () => {
     currentPage,
     totalPages,
 
-    
+    // Acciones - Listado y búsqueda
     fetchLocations,
     fetchAllActiveLocations,
     fetchLocationById,
@@ -440,28 +531,30 @@ export const useLocationsStore = defineStore('locations', () => {
     changePageSize,
     changeSorting,
 
-    
+    // Acciones - CRUD
     createLocation,
     updateLocation,
     deleteLocation,
     activateLocation,
     deactivateLocation,
 
-    
+    // Acciones - Helpers
     clearCurrentLocation,
     setCurrentLocation,
     getLocationById,
 
-    
+    // Reset
     $reset
   }
 })
 
+// =============================================================================
+// FUNCIONES AUXILIARES (MOCK DATA)
+// =============================================================================
 
-
-
-
-
+/**
+ * Genera ubicaciones mock para pruebas
+ */
 function generateMockLocations(count: number): Location[] {
   const locations: Location[] = []
   const names = [
@@ -492,8 +585,8 @@ function generateMockLocations(count: number): Location[] {
       address: addresses[i % addresses.length],
       capacity: [30, 50, 80, 100, 150, 200][i % 6],
       description: `Descripción de la ubicación ${names[i % names.length]}. Espacio moderno y equipado.`,
-      imageUrl: `https:
-      isActive: i % 5 !== 0, 
+      imageUrl: `https://picsum.photos/seed/location${i}/800/600`,
+      isActive: i % 5 !== 0, // Una de cada 5 inactiva
       createdAt: new Date().toISOString(),
       latitude: 40.4168 + (Math.random() - 0.5) * 0.1,
       longitude: -3.7038 + (Math.random() - 0.5) * 0.1,

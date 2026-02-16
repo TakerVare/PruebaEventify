@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventifyApi.Validators.Events;
 
-
-
-
+/// <summary>
+/// Validador para UpdateEventDto
+/// </summary>
 public class UpdateEventDtoValidator : AbstractValidator<UpdateEventDto>
 {
     public UpdateEventDtoValidator()

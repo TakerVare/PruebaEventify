@@ -1,4 +1,19 @@
+<!--
+  =============================================================================
+  EVENT FORM - Formulario de evento
+  =============================================================================
+  Componente reutilizable para crear y editar eventos.
+  Incluye validación con VeeValidate y Yup.
 
+  Props:
+  - event: Evento a editar (opcional, para modo edición)
+  - loading: Estado de carga del formulario
+
+  Emits:
+  - submit: Emite los datos del formulario al enviar
+  - cancel: Emite evento cuando se cancela
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -9,7 +24,7 @@ import { useLocationsStore } from '@/stores/locations'
 import { useValidation } from '@/composables/useValidation'
 import type { Event, CreateEventDto, UpdateEventDto } from '@/types'
 
-
+// Props
 interface Props {
   event?: Event
   loading?: boolean
@@ -20,7 +35,7 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false
 })
 
-
+// Emits
 const emit = defineEmits<{
   submit: [data: CreateEventDto | UpdateEventDto]
   cancel: []
@@ -31,10 +46,10 @@ const categoriesStore = useCategoriesStore()
 const locationsStore = useLocationsStore()
 const { eventSchema } = useValidation()
 
-
+// Estado
 const imagePreview = ref<string | null>(null)
 
-
+// Formulario
 const {
   defineField,
   handleSubmit,
@@ -83,7 +98,7 @@ const [capacity] = defineField('capacity')
 const [imageUrl] = defineField('imageUrl')
 const [status] = defineField('status')
 
-
+// Computados
 const isEditMode = computed(() => !!props.event)
 
 const categoryOptions = computed(() => {
@@ -110,9 +125,9 @@ const statusOptions = [
   { value: 'Completed', title: 'Completado' }
 ]
 
-
+// Métodos
 const onSubmit = handleSubmit((values) => {
-  
+  // Combinar fecha y hora
   const startDateTime = `${values.startDate}T${values.startTime}:00`
   const endDateTime = `${values.endDate}T${values.endTime}:00`
 
@@ -139,7 +154,7 @@ function updateImagePreview() {
   imagePreview.value = imageUrl.value || null
 }
 
-
+// Cargar datos necesarios
 onMounted(async () => {
   await Promise.all([
     categoriesStore.fetchCategories(),
@@ -155,7 +170,7 @@ onMounted(async () => {
 <template>
   <v-form @submit.prevent="onSubmit">
     <v-row>
-      
+      <!-- Título -->
       <v-col cols="12">
         <v-text-field
           v-model="title"
@@ -166,7 +181,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Descripción -->
       <v-col cols="12">
         <v-textarea
           v-model="description"
@@ -178,7 +193,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Categoría -->
       <v-col cols="12" md="6">
         <v-select
           v-model="categoryId"
@@ -189,7 +204,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Ubicación -->
       <v-col cols="12" md="6">
         <v-select
           v-model="locationId"
@@ -200,7 +215,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Fecha inicio -->
       <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="startDate"
@@ -211,7 +226,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Hora inicio -->
       <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="startTime"
@@ -222,7 +237,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Fecha fin -->
       <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="endDate"
@@ -233,7 +248,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Hora fin -->
       <v-col cols="12" sm="6" md="3">
         <v-text-field
           v-model="endTime"
@@ -244,7 +259,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Capacidad -->
       <v-col cols="12" md="6">
         <v-text-field
           v-model="capacity"
@@ -255,7 +270,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- Estado -->
       <v-col cols="12" md="6">
         <v-select
           v-model="status"
@@ -266,7 +281,7 @@ onMounted(async () => {
         />
       </v-col>
 
-      
+      <!-- URL de imagen -->
       <v-col cols="12">
         <v-text-field
           v-model="imageUrl"
@@ -287,7 +302,7 @@ onMounted(async () => {
         </v-text-field>
       </v-col>
 
-      
+      <!-- Preview de imagen -->
       <v-col v-if="imagePreview" cols="12">
         <v-card>
           <v-card-title class="text-body-2">Vista previa</v-card-title>
@@ -299,7 +314,7 @@ onMounted(async () => {
         </v-card>
       </v-col>
 
-      
+      <!-- Botones de acción -->
       <v-col cols="12">
         <v-divider class="mb-4" />
         <div class="d-flex ga-2 justify-end">
@@ -326,5 +341,5 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
-
+// Estilos específicos si son necesarios
 </style>

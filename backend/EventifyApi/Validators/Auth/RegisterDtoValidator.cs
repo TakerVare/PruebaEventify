@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace EventifyApi.Validators.Auth;
 
-
-
-
+/// <summary>
+/// Validador para RegisterDto
+/// </summary>
 public class RegisterDtoValidator : AbstractValidator<RegisterDto>
 {
     public RegisterDtoValidator()

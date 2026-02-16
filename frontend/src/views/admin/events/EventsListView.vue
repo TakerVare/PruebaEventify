@@ -1,4 +1,14 @@
-
+<!--
+  =============================================================================
+  ADMIN EVENTS LIST VIEW - Lista de eventos (Administración)
+  =============================================================================
+  Vista de administración que muestra todos los eventos con:
+  - Tabla de datos con paginación
+  - Filtros por estado y búsqueda
+  - Acciones CRUD (crear, editar, eliminar, publicar)
+  - Estadísticas rápidas
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -16,7 +26,7 @@ const eventsStore = useEventsStore()
 const authStore = useAuthStore()
 const uiStore = useUiStore()
 
-
+// Estado
 const loading = ref(true)
 const search = ref('')
 const statusFilter = ref<string>('all')
@@ -24,7 +34,7 @@ const showDeleteDialog = ref(false)
 const eventToDelete = ref<Event | null>(null)
 const deleting = ref(false)
 
-
+// Paginación
 const {
   currentPage,
   pageSize,
@@ -35,11 +45,11 @@ const {
   updateTotalCount
 } = usePagination(10)
 
-
+// Computados
 const filteredEvents = computed(() => {
   let filtered = eventsStore.events
 
-  
+  // Filtrar por búsqueda
   if (search.value) {
     const searchLower = search.value.toLowerCase()
     filtered = filtered.filter(
@@ -49,12 +59,12 @@ const filteredEvents = computed(() => {
     )
   }
 
-  
+  // Filtrar por estado
   if (statusFilter.value !== 'all') {
     filtered = filtered.filter(e => e.status === statusFilter.value)
   }
 
-  
+  // Filtrar por organizador si no es admin
   if (!authStore.isAdmin) {
     filtered = filtered.filter(e => e.organizer?.id === authStore.user?.id)
   }
@@ -77,7 +87,7 @@ const statusOptions = [
   { value: 'Completed', title: 'Completados' }
 ]
 
-
+// Headers de la tabla
 const headers = [
   { title: 'Imagen', key: 'imageUrl', sortable: false },
   { title: 'Título', key: 'title', sortable: true },
@@ -89,7 +99,7 @@ const headers = [
   { title: 'Acciones', key: 'actions', sortable: false, align: 'end' }
 ]
 
-
+// Métodos
 function getStatusColor(status: string): string {
   switch (status) {
     case 'Published':
@@ -147,7 +157,7 @@ async function confirmDelete() {
 async function togglePublish(event: Event) {
   try {
     if (event.status === 'Published') {
-      
+      // Cambiar a borrador
       await eventsStore.updateEvent(event.id, { ...event, status: 'Draft' })
       uiStore.showSuccess('Evento despublicado')
     } else {
@@ -173,7 +183,7 @@ async function loadEvents() {
   }
 }
 
-
+// Cargar eventos al montar
 onMounted(async () => {
   await loadEvents()
 })
@@ -181,7 +191,7 @@ onMounted(async () => {
 
 <template>
   <div class="admin-events-list-view">
-    
+    <!-- Encabezado -->
     <div class="d-flex justify-space-between align-center mb-6">
       <div>
         <h1 class="text-h4 font-weight-bold mb-2">
@@ -202,7 +212,7 @@ onMounted(async () => {
       </v-btn>
     </div>
 
-    
+    <!-- Filtros -->
     <v-card class="mb-6">
       <v-card-text>
         <v-row>
@@ -242,7 +252,7 @@ onMounted(async () => {
       </v-card-text>
     </v-card>
 
-    
+    <!-- Tabla de eventos -->
     <v-card>
       <v-data-table
         :headers="headers"
@@ -252,7 +262,7 @@ onMounted(async () => {
         hide-default-footer
         class="elevation-1"
       >
-        
+        <!-- Imagen -->
         <template #item.imageUrl="{ item }">
           <v-avatar size="60" rounded>
             <v-img
@@ -262,7 +272,7 @@ onMounted(async () => {
           </v-avatar>
         </template>
 
-        
+        <!-- Título -->
         <template #item.title="{ item }">
           <div class="font-weight-medium">{{ item.title }}</div>
           <div class="text-caption text-medium-emphasis">
@@ -270,7 +280,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        
+        <!-- Categoría -->
         <template #item.category.name="{ item }">
           <v-chip
             v-if="item.category"
@@ -282,12 +292,12 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        
+        <!-- Fecha -->
         <template #item.startDate="{ item }">
           {{ formatDate(item.startDate) }}
         </template>
 
-        
+        <!-- Asistentes -->
         <template #item.registeredCount="{ item }">
           <div class="text-center">
             <div class="font-weight-medium">
@@ -302,7 +312,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        
+        <!-- Estado -->
         <template #item.status="{ item }">
           <v-chip
             :color="getStatusColor(item.status)"
@@ -312,7 +322,7 @@ onMounted(async () => {
           </v-chip>
         </template>
 
-        
+        <!-- Acciones -->
         <template #item.actions="{ item }">
           <div class="d-flex ga-1">
             <v-tooltip text="Ver detalles">
@@ -368,7 +378,7 @@ onMounted(async () => {
           </div>
         </template>
 
-        
+        <!-- No data -->
         <template #no-data>
           <div class="text-center py-8">
             <v-icon size="64" color="grey-lighten-1" class="mb-4">
@@ -391,7 +401,7 @@ onMounted(async () => {
         </template>
       </v-data-table>
 
-      
+      <!-- Paginación -->
       <v-divider />
       <div class="pa-4">
         <v-pagination
@@ -403,7 +413,7 @@ onMounted(async () => {
       </div>
     </v-card>
 
-    
+    <!-- Diálogo de confirmación de eliminación -->
     <v-dialog v-model="showDeleteDialog" max-width="500">
       <v-card>
         <v-card-title class="text-h5">
@@ -441,6 +451,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .admin-events-list-view {
-  
+  // Estilos específicos si son necesarios
 }
 </style>

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventifyApi.Controllers;
 
-
-
-
+/// <summary>
+/// Controlador de ubicaciones
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class LocationsController : ControllerBase
@@ -28,14 +28,14 @@ public class LocationsController : ControllerBase
         _updateValidator = updateValidator;
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene ubicaciones con paginación y filtros
+    /// </summary>
+    /// <param name="page">Número de página (default: 1)</param>
+    /// <param name="pageSize">Tamaño de página (default: 10, max: 100)</param>
+    /// <param name="search">Búsqueda por nombre o dirección</param>
+    /// <param name="isActive">Filtrar por estado activo</param>
+    /// <returns>Lista paginada de ubicaciones</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<PaginatedResponse<LocationDto>>> GetAll(
@@ -55,10 +55,10 @@ public class LocationsController : ControllerBase
         }
     }
 
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene solo ubicaciones activas (para selección en formularios)
+    /// </summary>
+    /// <returns>Lista de ubicaciones activas</returns>
     [HttpGet("active")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<List<LocationSummaryDto>>>> GetActive()
@@ -74,11 +74,11 @@ public class LocationsController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene una ubicación por ID
+    /// </summary>
+    /// <param name="id">ID de la ubicación</param>
+    /// <returns>Ubicación encontrada</returns>
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<LocationDto>>> GetById(int id)
@@ -98,16 +98,16 @@ public class LocationsController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Crea una nueva ubicación (Solo Admin)
+    /// </summary>
+    /// <param name="createDto">Datos de la nueva ubicación</param>
+    /// <returns>Ubicación creada</returns>
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse<LocationDto>>> Create([FromBody] CreateLocationDto createDto)
     {
-        
+        // Validar DTO
         var validationResult = await _createValidator.ValidateAsync(createDto);
         if (!validationResult.IsValid)
         {
@@ -129,17 +129,17 @@ public class LocationsController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Actualiza una ubicación existente (Solo Admin)
+    /// </summary>
+    /// <param name="id">ID de la ubicación</param>
+    /// <param name="updateDto">Datos actualizados</param>
+    /// <returns>Ubicación actualizada</returns>
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse<LocationDto>>> Update(int id, [FromBody] UpdateLocationDto updateDto)
     {
-        
+        // Validar DTO
         var validationResult = await _updateValidator.ValidateAsync(updateDto);
         if (!validationResult.IsValid)
         {
@@ -164,11 +164,11 @@ public class LocationsController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Elimina una ubicación (Solo Admin)
+    /// </summary>
+    /// <param name="id">ID de la ubicación</param>
+    /// <returns>Confirmación de eliminación</returns>
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse<object>>> Delete(int id)

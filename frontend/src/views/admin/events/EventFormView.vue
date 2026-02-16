@@ -1,4 +1,11 @@
-
+<!--
+  =============================================================================
+  ADMIN EVENT FORM VIEW - Formulario de creación/edición de evento
+  =============================================================================
+  Vista de administración para crear o editar eventos.
+  Utiliza el componente EventForm y maneja la lógica de guardado.
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
@@ -15,12 +22,12 @@ const { t } = useI18n()
 const eventsStore = useEventsStore()
 const uiStore = useUiStore()
 
-
+// Estado
 const loading = ref(false)
 const loadingEvent = ref(false)
 const event = ref<Event | null>(null)
 
-
+// Computados
 const isEditMode = computed(() => route.params.id !== 'new')
 const eventId = computed(() => Number(route.params.id))
 
@@ -34,7 +41,7 @@ const breadcrumbs = computed(() => [
   { title: pageTitle.value }
 ])
 
-
+// Métodos
 async function loadEvent() {
   if (!isEditMode.value) return
 
@@ -62,16 +69,16 @@ async function handleSubmit(data: CreateEventDto | UpdateEventDto) {
 
   try {
     if (isEditMode.value) {
-      
+      // Actualizar evento existente
       await eventsStore.updateEvent(eventId.value, data as UpdateEventDto)
       uiStore.showSuccess('Evento actualizado correctamente')
     } else {
-      
+      // Crear nuevo evento
       await eventsStore.createEvent(data as CreateEventDto)
       uiStore.showSuccess('Evento creado correctamente')
     }
 
-    
+    // Redirigir a la lista de eventos
     router.push('/admin/events')
   } catch (error) {
     console.error('Error saving event:', error)
@@ -85,7 +92,7 @@ function handleCancel() {
   router.push('/admin/events')
 }
 
-
+// Cargar evento si estamos en modo edición
 onMounted(async () => {
   if (isEditMode.value) {
     await loadEvent()
@@ -95,14 +102,14 @@ onMounted(async () => {
 
 <template>
   <div class="admin-event-form-view">
-    
+    <!-- Breadcrumbs -->
     <v-breadcrumbs :items="breadcrumbs" class="px-0 pb-4">
       <template #divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
 
-    
+    <!-- Encabezado -->
     <div class="mb-6">
       <h1 class="text-h4 font-weight-bold mb-2">
         {{ pageTitle }}
@@ -112,7 +119,7 @@ onMounted(async () => {
       </p>
     </div>
 
-    
+    <!-- Loading del evento -->
     <v-card v-if="loadingEvent" class="pa-8">
       <div class="text-center">
         <v-progress-circular
@@ -126,7 +133,7 @@ onMounted(async () => {
       </div>
     </v-card>
 
-    
+    <!-- Formulario -->
     <v-card v-else>
       <v-card-text class="pa-6">
         <EventForm
@@ -138,7 +145,7 @@ onMounted(async () => {
       </v-card-text>
     </v-card>
 
-    
+    <!-- Ayuda -->
     <v-alert
       type="info"
       variant="tonal"
@@ -162,6 +169,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .admin-event-form-view {
-  
+  // Estilos específicos si son necesarios
 }
 </style>

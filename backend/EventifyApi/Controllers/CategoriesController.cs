@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EventifyApi.Controllers;
 
-
-
-
+/// <summary>
+/// Controlador de categorías (solo lectura)
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
@@ -20,10 +20,10 @@ public class CategoriesController : ControllerBase
         _categoryService = categoryService;
     }
 
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene todas las categorías
+    /// </summary>
+    /// <returns>Lista de todas las categorías</returns>
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<List<CategoryDto>>>> GetAll()
@@ -39,11 +39,11 @@ public class CategoriesController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene una categoría por ID
+    /// </summary>
+    /// <param name="id">ID de la categoría</param>
+    /// <returns>Categoría encontrada</returns>
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<CategoryDto>>> GetById(int id)

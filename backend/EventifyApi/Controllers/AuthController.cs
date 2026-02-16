@@ -10,9 +10,9 @@ using System.Security.Claims;
 
 namespace EventifyApi.Controllers;
 
-
-
-
+/// <summary>
+/// Controlador de autenticación y gestión de sesión
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
@@ -37,16 +37,16 @@ public class AuthController : ControllerBase
         _changePasswordValidator = changePasswordValidator;
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Login de usuario
+    /// </summary>
+    /// <param name="loginDto">Credenciales de acceso</param>
+    /// <returns>Token JWT y datos del usuario</returns>
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Login([FromBody] LoginDto loginDto)
     {
-        
+        // Validar DTO
         var validationResult = await _loginValidator.ValidateAsync(loginDto);
         if (!validationResult.IsValid)
         {
@@ -67,16 +67,16 @@ public class AuthController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Registro de nuevo usuario
+    /// </summary>
+    /// <param name="registerDto">Datos del nuevo usuario</param>
+    /// <returns>Token JWT y datos del usuario registrado</returns>
     [HttpPost("register")]
     [AllowAnonymous]
     public async Task<ActionResult<ApiResponse<AuthResponseDto>>> Register([FromBody] RegisterDto registerDto)
     {
-        
+        // Validar DTO
         var validationResult = await _registerValidator.ValidateAsync(registerDto);
         if (!validationResult.IsValid)
         {
@@ -97,10 +97,10 @@ public class AuthController : ControllerBase
         }
     }
 
-    
-    
-    
-    
+    /// <summary>
+    /// Obtiene los datos del usuario autenticado
+    /// </summary>
+    /// <returns>Datos del usuario actual</returns>
     [HttpGet("me")]
     [Authorize]
     public async Task<ActionResult<ApiResponse<UserDto>>> GetCurrentUser()
@@ -125,16 +125,16 @@ public class AuthController : ControllerBase
         }
     }
 
-    
-    
-    
-    
-    
+    /// <summary>
+    /// Cambia la contraseña del usuario autenticado
+    /// </summary>
+    /// <param name="changePasswordDto">Contraseña actual y nueva contraseña</param>
+    /// <returns>Confirmación del cambio</returns>
     [HttpPost("change-password")]
     [Authorize]
     public async Task<ActionResult<ApiResponse<object>>> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
     {
-        
+        // Validar DTO
         var validationResult = await _changePasswordValidator.ValidateAsync(changePasswordDto);
         if (!validationResult.IsValid)
         {

@@ -1,4 +1,16 @@
+<!--
+  =============================================================================
+  REGISTER VIEW - Vista de registro
+  =============================================================================
+  Formulario de registro de nuevos usuarios con validación completa.
 
+  Características:
+  - Validación en tiempo real con VeeValidate
+  - Verificación de contraseñas coincidentes
+  - Indicador de fortaleza de contraseña
+  - Aceptación de términos y condiciones
+  =============================================================================
+-->
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -14,25 +26,25 @@ const { t } = useI18n()
 const authStore = useAuthStore()
 const { registerSchema } = useValidation()
 
-
+// Estado del formulario
 const loading = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const acceptTerms = ref(false)
 
-
+// Configurar VeeValidate con el esquema de validación
 const { defineField, handleSubmit, errors, values } = useForm({
   validationSchema: registerSchema
 })
 
-
+// Definir campos del formulario
 const [firstName, firstNameAttrs] = defineField('firstName')
 const [lastName, lastNameAttrs] = defineField('lastName')
 const [email, emailAttrs] = defineField('email')
 const [password, passwordAttrs] = defineField('password')
 const [confirmPassword, confirmPasswordAttrs] = defineField('confirmPassword')
 
-
+// Indicador de fortaleza de contraseña
 const passwordStrength = computed(() => {
   const pwd = values.password || ''
   if (!pwd) return { value: 0, color: '', text: '' }
@@ -49,7 +61,7 @@ const passwordStrength = computed(() => {
   return { value: 100, color: 'success', text: 'Fuerte' }
 })
 
-
+// Manejar envío del formulario
 const onSubmit = handleSubmit(async (formValues) => {
   if (!acceptTerms.value) {
     return
@@ -69,7 +81,7 @@ const onSubmit = handleSubmit(async (formValues) => {
     const success = await authStore.register(userData)
 
     if (success) {
-      
+      // Redirigir al home después del registro exitoso
       router.push('/')
     }
   } finally {
@@ -80,7 +92,7 @@ const onSubmit = handleSubmit(async (formValues) => {
 
 <template>
   <div>
-    
+    <!-- Título -->
     <h1 class="text-h5 font-weight-bold text-center mb-2">
       {{ t('auth.register.title') }}
     </h1>
@@ -88,9 +100,9 @@ const onSubmit = handleSubmit(async (formValues) => {
       {{ t('auth.register.subtitle') }}
     </p>
 
-    
+    <!-- Formulario -->
     <v-form @submit.prevent="onSubmit">
-      
+      <!-- Nombre y Apellido en fila -->
       <v-row>
         <v-col cols="12" sm="6">
           <v-text-field
@@ -116,7 +128,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         </v-col>
       </v-row>
 
-      
+      <!-- Email -->
       <v-text-field
         v-model="email"
         v-bind="emailAttrs"
@@ -128,7 +140,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         :disabled="loading"
       />
 
-      
+      <!-- Contraseña -->
       <v-text-field
         v-model="password"
         v-bind="passwordAttrs"
@@ -142,7 +154,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         :disabled="loading"
       />
 
-      
+      <!-- Indicador de fortaleza de contraseña -->
       <div v-if="password" class="mb-4">
         <v-progress-linear
           :model-value="passwordStrength.value"
@@ -155,7 +167,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         </p>
       </div>
 
-      
+      <!-- Confirmar contraseña -->
       <v-text-field
         v-model="confirmPassword"
         v-bind="confirmPasswordAttrs"
@@ -169,7 +181,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         :disabled="loading"
       />
 
-      
+      <!-- Checkbox de términos y condiciones -->
       <v-checkbox
         v-model="acceptTerms"
         color="primary"
@@ -185,7 +197,7 @@ const onSubmit = handleSubmit(async (formValues) => {
         </template>
       </v-checkbox>
 
-      
+      <!-- Botón de envío -->
       <v-btn
         type="submit"
         color="primary"
@@ -198,10 +210,10 @@ const onSubmit = handleSubmit(async (formValues) => {
         {{ t('auth.register.submit') }}
       </v-btn>
 
-      
+      <!-- Divider -->
       <v-divider class="my-4" />
 
-      
+      <!-- Enlace a login -->
       <div class="text-center">
         <p class="text-body-2 text-medium-emphasis mb-2">
           {{ t('auth.register.hasAccount') }}
@@ -221,5 +233,5 @@ const onSubmit = handleSubmit(async (formValues) => {
 </template>
 
 <style scoped lang="scss">
-
+// Estilos adicionales si son necesarios
 </style>

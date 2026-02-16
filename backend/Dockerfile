@@ -38,7 +38,7 @@ COPY --from=publish /app/publish .
 EXPOSE 5000
 
 # Variables de entorno
-ENV ASPNETCORE_URLS=http:
+ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Punto de entrada

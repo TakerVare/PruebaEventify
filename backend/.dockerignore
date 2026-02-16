@@ -26,11 +26,14 @@
 *.sqlite3
 
 # Logs
-**logs/
+**/*.log
+**/logs/
 
 # Archivos temporales
-***.temp
-***.swp
+**/*.tmp
+**/*.temp
+**/*.bak
+**/*.swp
 
 # Archivos de sistema operativo
 .DS_Store
@@ -48,4 +51,7 @@ docker-compose*.yml
 
 # Documentación
 README.md
-**TestResults/
+**/*.md
+
+# Archivos de prueba
+**/TestResults/

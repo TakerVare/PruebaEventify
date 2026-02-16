@@ -1,8 +1,8 @@
 namespace EventifyApi.Models.DTOs.Events;
 
-
-
-
+/// <summary>
+/// DTO de estadísticas de eventos para dashboard
+/// </summary>
 public class EventStatsDto
 {
     public int TotalEvents { get; set; }
